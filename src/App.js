@@ -34,7 +34,7 @@ export const App = () => {
           <h2 className="authHeader">Sortify</h2>
           <SpotifyAuth
             redirectUri="http://localhost:3000/callback"
-            clientID="8e60798c10de43eb9c5facdabbabff2b"
+            clientID=""
             logoClassName="loginLogo"
             btnClassName="loginBtn"
             scopes={[
