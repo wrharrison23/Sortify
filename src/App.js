@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Route, Redirect, useHistory } from "react-router-dom";
+import { ApplicationViews } from "./ApplicationViews";
 
-function App() {
+import { SongList } from "./Spotify/SongList";
+import Cookies from "js-cookie";
+import { SpotifyAuth } from "react-spotify-auth";
+import "react-spotify-auth/dist/index.css";
+import { SongProvider } from "./Providers/SpotifyProvider";
+import SpotifyWebApi from "spotify-web-api-js";
+import "./App.css";
+
+const spotifyApi = new SpotifyWebApi();
+
+export const App = () => {
+  const token = Cookies.get("spotifyAuthToken");
+
+  if (token) {
+    localStorage.setItem("accessToken", token);
+    spotifyApi.setAccessToken(token);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      {localStorage.getItem("accessToken") ? (
+        <SongProvider>
+          <div className="songListContainer">
+            <SongList />
+          </div>
+        </SongProvider>
+      ) : (
+        // Display the login page
+        <div className="authPage">
+          <h2 className="authHeader">Sortify</h2>
+          <SpotifyAuth
+            redirectUri="http://localhost:3000/callback"
+            clientID="8e60798c10de43eb9c5facdabbabff2b"
+            logoClassName="loginLogo"
+            btnClassName="loginBtn"
+            scopes={[
+              "user-read-private",
+              "user-read-email",
+              "user-read-playback-state",
+              "user-top-read",
+            ]}
+          />
+        </div>
+      )}
     </div>
   );
-}
-
-export default App;
+};
