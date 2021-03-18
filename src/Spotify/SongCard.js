@@ -17,55 +17,93 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    height: 75,
+    height: 60,
+    width: 400,
+    backgroundColor: "#EEFBFB",
   },
   details: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
   content: {
     flex: "1 0 auto",
   },
   cover: {
-    width: 120,
+    width: 100,
+    height:"100%"
   },
-  controls: {
-    display: "flex",
-    alignItems: "center",
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+  delete: {
+    height: 20,
+    width: 20,
   },
-  playIcon: {
-    height: 38,
-    width: 38,
-  },
+  trackName: {
+    fontSize: "5rem"
+  }
 }));
+
+const theme = createMuiTheme({
+  typography: {
+    h5: {
+      fontSize: 17,
+    },
+    subtitle1: {
+      fontSize:12,
+    },
+    button: {
+      fontStyle: "italic",
+    },
+  },
+});
 
 export const SongCard = ( {song} ) => {
 const classes = useStyles();
-const theme = useTheme();
+
 
 return (
   <Card className={classes.root}>
-    <CardMedia
-      component="img"
-      className={classes.cover}
-      src={song.imageUrl}
-    />
-    <div className={classes.details}>
-      <CardContent className={classes.content}>
-        <Typography component="h5" variant="h5">
-          {song.name}
-        </Typography>
-        <Typography variant="subtitle1" color="textSecondary">
-          {song.artist}
-        </Typography>
+    <CardMedia component="img" className={classes.cover} src={song.imageUrl} />
+
+    <Grid
+      container
+      direction="row"
+      justify="flex-end"
+      alignItems="center"
+      style={{ backgroundColor: "white" }}
+    >
+      <CardContent
+        className={classes.content}
+        style={{ backgroundColor: "white" }}
+      >
+        <ThemeProvider theme={theme}>
+          <Typography
+            component="h5"
+            variant="h5"
+            className="trackName"
+            style={{ backgroundColor: "white" }}
+          >
+            {song.name}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            color="textSecondary"
+            style={{ backgroundColor: "white" }}
+          >
+            {song.artist}
+          </Typography>
+        </ThemeProvider>
       </CardContent>
-    </div>
+      <DeleteIcon
+        color="disabled"
+        className="delete"
+        style={{ backgroundColor: "white" }}
+      />
+    </Grid>
   </Card>
 );
 }

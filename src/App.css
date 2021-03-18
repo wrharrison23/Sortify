@@ -46,21 +46,22 @@
 } */
 
 #root {
-  background-color: #CAF0F8;
+  background-color: #203647;
 }
 
-/* * {
-  background-color: #CAF0F8;
-} */
+* {
+  background-color: #203647;
+}
 
 h3 {
-  color: #0077b6;
+  color: #4DA8DA;
   font-family: 'Pacifico', cursive;
-
 }
 
 .authHeader {
   margin-bottom: 5em;
+  color: #4DA8DA;
+  font-family: 'Pacifico', cursive;
 }
 
 .authPage {
@@ -70,7 +71,7 @@ h3 {
 }
 
 .loginBtn {
-  background-color: #023E8A;
+  background-color: #007CC7;
   width: 15em;
   height: 5em;
   text-align: center;
@@ -86,7 +87,7 @@ h3 {
 }
 
 .loginBtn span{
-  background-color: #023E8A;
+  background-color: #007CC7;
   text-align: center;
 }
 
@@ -97,7 +98,7 @@ h3 {
 }
 
 .loginLogo {
-   background-color: #023E8A;
+   background-color: #007CC7;
   height: 1.5rem;
   width:2em;
   fill: white;
