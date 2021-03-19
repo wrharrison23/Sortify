@@ -47,30 +47,30 @@ export const SongList = () => {
       setDanceTracks(featureArray)
     }
 
-  const createMoods = () => {
-   getFeatures(tracks.trackArray)
-    buildMoodLists()
-    createPlaylist()
-  }
+  // const createMoods = () => {
+  //  getFeatures(tracks.trackArray)
+  //   buildMoodLists()
+  //   createPlaylist()
+  // }
 
-  const createPlaylist = () => {
-    let danceArray = []
-    danceTracks.map((featureId) => {
-      let relatedTrack = tracks.trackArray.find((track) => 
-        track.id === featureId
-      )
-      danceArray.push({
-        name: relatedTrack.name,
-        artist: relatedTrack.artist,
-        imageUrl:relatedTrack.imageUrl,
-        id: relatedTrack.id,
-        playlist: "dance"
-      }
-      )
-  }
-    )
-  setDanceArray(danceArray)
-  }
+  // const createPlaylist = () => {
+  //   let danceArray = []
+  //   danceTracks.map((featureId) => {
+  //     let relatedTrack = tracks.trackArray.find((track) => 
+  //       track.id === featureId
+  //     )
+  //     danceArray.push({
+  //       name: relatedTrack.name,
+  //       artist: relatedTrack.artist,
+  //       imageUrl:relatedTrack.imageUrl,
+  //       id: relatedTrack.id,
+  //       playlist: "dance"
+  //     }
+  //     )
+  // }
+  //   )
+  // setDanceArray(danceArray)
+  // }
 
 
   // const sortSongs = () => {
@@ -88,7 +88,7 @@ export const SongList = () => {
 
   return (
     <>
-      <button onClick={createMoods}>Get moods</button>
+      {/* <button onClick={createMoods}>Get moods</button> */}
       <Grid container className={classes.container}>
         <div className={classes.root}>
           <Grid item xs={5}>
