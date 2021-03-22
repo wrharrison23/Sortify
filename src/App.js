@@ -42,6 +42,7 @@ export const App = () => {
               "user-read-email",
               "user-read-playback-state",
               "user-top-read",
+              "playlist-modify-private",
             ]}
           />
         </div>

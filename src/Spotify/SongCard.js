@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     height: 60,
     width: 400,
     backgroundColor: "#EEFBFB",
+    borderRadius: 0
   },
   details: {
     display: "flex",
