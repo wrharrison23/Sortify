@@ -6,8 +6,16 @@ export const SpotifyContext = createContext();
 const spotifyApi = new SpotifyWebApi();
 
 export const SongProvider = (props) => {
-  const [tracks, setTracks] = useState({});
+  const [tracks, setTracks] = useState({
+    trackArray: []
+  });
   const [features, setFeatures] = useState({});
+  const [user, setUser] = useState({})
+
+  const getCurrentUser = () => {
+    spotifyApi.getMe()
+    .then((r) => setUser(r))
+  }
 
   const buildTrackArray = (r) => {
     let trackArray = [];
@@ -28,7 +36,7 @@ export const SongProvider = (props) => {
     spotifyApi
       .getMyTopTracks({
         time_range: "medium_term",
-        limit: 10,
+        limit: 20,
       })
       .then((r) => {
         console.log(r);
@@ -43,7 +51,8 @@ export const SongProvider = (props) => {
     trackArray.forEach((track) => {
       idString += track.id + ",";
     });
-    spotifyApi.getAudioFeaturesForTracks(idString).then((r) => setFeatures(r));
+    spotifyApi.getAudioFeaturesForTracks(idString)
+    .then((r) => setFeatures(r))
   };
 
   return (
@@ -53,6 +62,7 @@ export const SongProvider = (props) => {
         getFeatures,
         tracks,
         features,
+        getCurrentUser,
       }}
     >
       {props.children}
