@@ -43,6 +43,9 @@ export const App = () => {
               "user-read-playback-state",
               "user-top-read",
               "playlist-modify-private",
+              "playlist-modify-public",
+              "playlist-modify-public",
+              "playlist-modify-private",
             ]}
           />
         </div>

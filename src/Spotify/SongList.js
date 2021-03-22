@@ -3,7 +3,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { SongCard } from "./SongCard";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-
+import SaveAltIcon from "@material-ui/icons/SaveAlt";
+import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-evenly",
     flexGrow: 1,
     textAlign: "center",
-    backGroundColor: "#203647"
+    backGroundColor: "#203647",
   },
   paper: {
     textAlign: "center",
@@ -23,6 +24,11 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginBottom: "2px",
   },
+  button: {
+    margin: theme.spacing(1),
+    backGroundColor: "white",
+    width: "100%"
+  },
 }));
 
 export const SongList = () => {
@@ -32,8 +38,9 @@ export const SongList = () => {
     getFeatures,
     getTopTracks,
     setFeatures,
-    getCurrentUser,
+    savePlaylist
   } = useContext(SpotifyContext);
+
   const [danceIdArray, setDanceIdArray] = useState([])
   const [danceArray, setDanceArray] = useState([]);
   const [feelGoodIdArray, setFeelGoodIdArray] = useState([]);
@@ -48,13 +55,14 @@ export const SongList = () => {
   const classes = useStyles()
 
   useEffect(() => {
-    tracks.trackArray.length > 0 ? 
-    buildMoodLists() 
-    : getTopTracks(); getCurrentUser(); 
-  }, [tracks, features]);
+    getTopTracks().then(buildMoodLists)
+  }, []);
 
   const buildMoodLists = () => {
     getFeatures(tracks.trackArray)
+    .then(() => {
+
+    
        if (features.audio_features) {
          let danceIds = [];
          let feelGoodIds = [];
@@ -82,7 +90,8 @@ export const SongList = () => {
          createPlaylist();
        }  
 }
-
+    )}
+    
   const createPlaylist = () => {
     let danceList = []
     let feelGoodList = []
@@ -102,7 +111,7 @@ export const SongList = () => {
         playlist: "dance"
       })
     })
-  setDanceArray(danceList);
+    setDanceArray(danceList);
 
     feelGoodIdArray.map((featureId) => {
       let relatedTrack = tracks.trackArray.find(
@@ -159,7 +168,16 @@ export const SongList = () => {
       });
     });
     setChillArray(chillList);
-}
+  }
+
+  const handleSavePlaylist = (playlistName, description, songArray) => {
+    let uriArray = songArray.map((song) => {
+     return `spotify:track:${song.id}`
+    })
+    savePlaylist(playlistName, description, uriArray);
+    
+    console.log("Saved");
+  }
 
   return (
     <>
@@ -173,6 +191,18 @@ export const SongList = () => {
                 return <SongCard key={track.id} song={track} />;
               })}
             </div>
+            <Grid item xs={8}>
+              <Button
+                variant="contained"
+                color="default"
+                size="large"
+                className={classes.button}
+                startIcon={<SaveAltIcon />}
+                onClick={() => handleSavePlaylist("Sortify - Dance", "Songs to dance to - created by Sortify", danceArray)}
+              >
+                Save
+              </Button>
+            </Grid>
           </Grid>
           <Grid item xs={5}>
             <h3>Chill</h3>

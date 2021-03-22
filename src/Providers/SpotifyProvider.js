@@ -10,12 +10,6 @@ export const SongProvider = (props) => {
     trackArray: []
   });
   const [features, setFeatures] = useState({});
-  const [user, setUser] = useState({})
-
-  const getCurrentUser = () => {
-    spotifyApi.getMe()
-    .then((r) => setUser(r))
-  }
 
   const buildTrackArray = (r) => {
     let trackArray = [];
@@ -32,7 +26,7 @@ export const SongProvider = (props) => {
 
   const getTopTracks = () => {
     spotifyApi.setAccessToken(localStorage.getItem("accessToken"));
-
+    return (
     spotifyApi
       .getMyTopTracks({
         time_range: "medium_term",
@@ -43,18 +37,41 @@ export const SongProvider = (props) => {
         setTracks({
           trackArray: buildTrackArray(r),
         });
-      });
+      })
+    )
   };
 
   const getFeatures = (trackArray) => {
+    console.log(trackArray)
     let idString = "";
     trackArray.forEach((track) => {
       idString += track.id + ",";
     });
+    return (
     spotifyApi.getAudioFeaturesForTracks(idString)
-    .then((r) => setFeatures(r))
+    .then((r) => console.log(r))
+    )
   };
 
+  const savePlaylist = (playlistName, description, songUris) => {
+    let playlistId
+    let userId
+
+    spotifyApi.getMe().then((r) => 
+    userId = r.id)
+    .then(() => {
+    spotifyApi.createPlaylist(userId, {
+      "name": playlistName,
+      "description": description
+    }).then((r) => {
+      playlistId = r.id
+    }).then(() => {
+      spotifyApi.addTracksToPlaylist(playlistId, {
+       songUris
+      });
+    })
+    })
+  }
   return (
     <SpotifyContext.Provider
       value={{
@@ -62,7 +79,7 @@ export const SongProvider = (props) => {
         getFeatures,
         tracks,
         features,
-        getCurrentUser,
+        savePlaylist
       }}
     >
       {props.children}
