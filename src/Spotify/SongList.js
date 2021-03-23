@@ -27,157 +27,37 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
     backGroundColor: "white",
-    width: "100%"
+    width: "100%",
   },
 }));
 
 export const SongList = () => {
   const {
-    tracks,
-    features,
-    getFeatures,
+    chillArray,
+    sadArray,
+    intenseArray,
+    danceArray,
+    feelGoodArray,
+    savePlaylist,
     getTopTracks,
-    setFeatures,
-    savePlaylist
+    getFeatures
   } = useContext(SpotifyContext);
 
-  const [danceIdArray, setDanceIdArray] = useState([])
-  const [danceArray, setDanceArray] = useState([]);
-  const [feelGoodIdArray, setFeelGoodIdArray] = useState([]);
-  const [feelGoodArray, setFeelGoodArray] = useState([]);
-  const [intenseIdArray, setIntenseIdArray] = useState([]);
-  const [intenseArray, setIntenseArray] = useState([]);
-  const [chillIdArray, setChillIdArray] = useState([]);
-  const [chillArray, setChillArray] = useState([]);
-  const [sadIdArray, setSadIdArray] = useState([]);
-  const [sadArray, setSadArray] = useState([]);
-
-  const classes = useStyles()
+  const classes = useStyles();
 
   useEffect(() => {
-    getTopTracks().then(buildMoodLists)
+    getTopTracks().then(getFeatures)
   }, []);
-
-  const buildMoodLists = () => {
-    getFeatures(tracks.trackArray)
-    .then(() => {
-
-    
-       if (features.audio_features) {
-         let danceIds = [];
-         let feelGoodIds = [];
-         let sadIds = [];
-         let intenseIds = [];
-         let chillIds = [];
-         features.audio_features.filter((feature) => {
-           if (feature.danceability > 0.6) {
-             danceIds.push(feature.id);
-           } if (feature.valence > .6 && feature.energy > .3){
-             feelGoodIds.push(feature.id)
-           } if (feature.energy > .75){
-             intenseIds.push(feature.id)
-           } if(feature.energy > .3 && feature.valence > .25){
-             chillIds.push(feature.id)
-           } if (feature.valence < .3 && feature.energy < .6){
-             sadIds.push(feature.id)
-           }
-         })
-         setDanceIdArray(danceIds);
-         setFeelGoodIdArray(feelGoodIds);
-         setIntenseIdArray(intenseIds);
-         setChillIdArray(chillIds);
-         setSadIdArray(sadIds);
-         createPlaylist();
-       }  
-}
-    )}
-    
-  const createPlaylist = () => {
-    let danceList = []
-    let feelGoodList = []
-    let intenseList = []
-    let sadList = []
-    let chillList = []
-
-    danceIdArray.map((featureId) => {
-      let relatedTrack = tracks.trackArray.find((track) => 
-        track.id === featureId
-      )
-      danceList.push({
-        name: relatedTrack.name,
-        artist: relatedTrack.artist,
-        imageUrl:relatedTrack.imageUrl,
-        id: relatedTrack.id,
-        playlist: "dance"
-      })
-    })
-    setDanceArray(danceList);
-
-    feelGoodIdArray.map((featureId) => {
-      let relatedTrack = tracks.trackArray.find(
-        (track) => track.id === featureId
-      );
-      feelGoodList.push({
-        name: relatedTrack.name,
-        artist: relatedTrack.artist,
-        imageUrl: relatedTrack.imageUrl,
-        id: relatedTrack.id,
-        playlist: "feelGood",
-      });
-    });
-    setFeelGoodArray(feelGoodList);
-
-    intenseIdArray.map((featureId) => {
-      let relatedTrack = tracks.trackArray.find(
-        (track) => track.id === featureId
-      );
-      intenseList.push({
-        name: relatedTrack.name,
-        artist: relatedTrack.artist,
-        imageUrl: relatedTrack.imageUrl,
-        id: relatedTrack.id,
-        playlist: "intense",
-      });
-    });
-    setIntenseArray(intenseList);
-
-    sadIdArray.map((featureId) => {
-      let relatedTrack = tracks.trackArray.find(
-        (track) => track.id === featureId
-      );
-      sadList.push({
-        name: relatedTrack.name,
-        artist: relatedTrack.artist,
-        imageUrl: relatedTrack.imageUrl,
-        id: relatedTrack.id,
-        playlist: "sad",
-      });
-    });
-    setSadArray(sadList);
-
-    chillIdArray.map((featureId) => {
-      let relatedTrack = tracks.trackArray.find(
-        (track) => track.id === featureId
-      );
-      chillList.push({
-        name: relatedTrack.name,
-        artist: relatedTrack.artist,
-        imageUrl: relatedTrack.imageUrl,
-        id: relatedTrack.id,
-        playlist: "chill",
-      });
-    });
-    setChillArray(chillList);
-  }
 
   const handleSavePlaylist = (playlistName, description, songArray) => {
     let uriArray = songArray.map((song) => {
-     return `spotify:track:${song.id}`
-    })
+      return `spotify:track:${song.id}`;
+    });
+    console.log(uriArray)
     savePlaylist(playlistName, description, uriArray);
-    
+
     console.log("Saved");
-  }
+  };
 
   return (
     <>
@@ -198,7 +78,13 @@ export const SongList = () => {
                 size="large"
                 className={classes.button}
                 startIcon={<SaveAltIcon />}
-                onClick={() => handleSavePlaylist("Sortify - Dance", "Songs to dance to - created by Sortify", danceArray)}
+                onClick={() =>
+                  handleSavePlaylist(
+                    "Sortify - Dance",
+                    "Songs to dance to - created by Sortify",
+                    danceArray
+                  )
+                }
               >
                 Save
               </Button>
@@ -211,6 +97,24 @@ export const SongList = () => {
                 return <SongCard key={track.id} song={track} />;
               })}
             </div>
+            <Grid item xs={8}>
+              <Button
+                variant="contained"
+                color="default"
+                size="large"
+                className={classes.button}
+                startIcon={<SaveAltIcon />}
+                onClick={() =>
+                  handleSavePlaylist(
+                    "Sortify - Chill",
+                    "Songs to relax to - created by Sortify",
+                    chillArray
+                  )
+                }
+              >
+                Save
+              </Button>
+            </Grid>
           </Grid>
         </div>
       </Grid>
@@ -224,14 +128,50 @@ export const SongList = () => {
                 return <SongCard key={track.id} song={track} />;
               })}
             </div>
+            <Grid item xs={8}>
+              <Button
+                variant="contained"
+                color="default"
+                size="large"
+                className={classes.button}
+                startIcon={<SaveAltIcon />}
+                onClick={() =>
+                  handleSavePlaylist(
+                    "Sortify - Feel-good",
+                    "Feel-good songs - created by Sortify",
+                    feelGoodArray
+                  )
+                }
+              >
+                Save
+              </Button>
+            </Grid>
           </Grid>
           <Grid item xs={5}>
-            <h3>Feel-good</h3>
+            <h3>Intense</h3>
             <div>
               {intenseArray?.map((track) => {
                 return <SongCard key={track.id} song={track} />;
               })}
             </div>
+            <Grid item xs={8}>
+              <Button
+                variant="contained"
+                color="default"
+                size="large"
+                className={classes.button}
+                startIcon={<SaveAltIcon />}
+                onClick={() =>
+                  handleSavePlaylist(
+                    "Sortify - Intense",
+                    "Intense songs - created by Sortify",
+                    intenseArray
+                  )
+                }
+              >
+                Save
+              </Button>
+            </Grid>
           </Grid>
         </div>
       </Grid>
@@ -243,9 +183,25 @@ export const SongList = () => {
             return <SongCard key={track.id} song={track} />;
           })}
         </div>
+        <Grid item xs={8}>
+          <Button
+            variant="contained"
+            color="default"
+            size="large"
+            className={classes.button}
+            startIcon={<SaveAltIcon />}
+            onClick={() =>
+              handleSavePlaylist(
+                "Sortify - Sad",
+                "Wanna cry? I gotchu- created by Sortify",
+                sadArray
+              )
+            }
+          >
+            Save
+          </Button>
+        </Grid>
       </Grid>
     </>
   );
 };
- 
-
