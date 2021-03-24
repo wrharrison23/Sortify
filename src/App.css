@@ -69,14 +69,18 @@
 /* * {
   background-color: #203647;
 } */
-
+.logoDiv {
+  height: 100vh;
+  text-align: center;
+}
 h3 {
-  color: #4DA8DA;
+  color: white;
   font-family: 'Pacifico', cursive;
+  font-size: 4em;
 }
 
 .authHeader {
-  margin-bottom: 5em;
+  margin-bottom: 4em;
   color: #4DA8DA;
   font-family: 'Pacifico', cursive;
 }

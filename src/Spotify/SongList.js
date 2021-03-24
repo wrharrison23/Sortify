@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backGroundColor: "white",
     width: "100%",
+    borderRadius: 20
   },
   songCard: {
     height: 60,
@@ -72,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
   margin: {
     spacing: 0,
   },
+  header:{
+    alignSelf: "center"
+  }
 }));
 
 const theme = createMuiTheme({
@@ -144,8 +148,8 @@ export const SongList = () => {
       {/* <button onClick={buildMoodLists}>Get moods</button> */}
       <Grid container className={classes.root}>
         <Grid item xs={5}>
-          <Column gap={2} width={"100%"}>
-            <h3>Party</h3>
+          <Column gap={2} width={"100%"} className={classes.col}>
+            <h3 className={classes.header}>Party</h3>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {danceArray?.map((track) => {
                 return (
@@ -169,7 +173,7 @@ export const SongList = () => {
                         size="small"
                       >
                         <DeleteIcon
-                          style={{ backgroundColor: "inherit", color:"white"}}
+                          style={{ backgroundColor: "inherit", color: "white" }}
                           fontSize="small"
                         />
                       </IconButton>
@@ -182,6 +186,7 @@ export const SongList = () => {
               variant="contained"
               color="default"
               size="large"
+              style={{ backgroundColor: "white", color: "black" }}
               className={classes.button}
               startIcon={<SaveAltIcon />}
               onClick={() =>
@@ -199,7 +204,7 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3>Chill</h3>
+            <h3 className={classes.header}>Chill</h3>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {chillArray?.map((track) => {
                 return (
@@ -236,6 +241,7 @@ export const SongList = () => {
               variant="contained"
               color="default"
               size="large"
+              style={{ backgroundColor: "white", color: "black" }}
               className={classes.button}
               startIcon={<SaveAltIcon />}
               onClick={() =>
@@ -253,7 +259,7 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3>Feel-good</h3>
+            <h3 className={classes.header}>Feel-good</h3>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {feelGoodArray?.map((track) => {
                 return (
@@ -290,6 +296,7 @@ export const SongList = () => {
               variant="contained"
               color="default"
               size="large"
+              style={{ backgroundColor: "white", color: "black" }}
               className={classes.button}
               startIcon={<SaveAltIcon />}
               onClick={() =>
@@ -307,7 +314,7 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3>Energetic</h3>
+            <h3 className={classes.header}>Energetic</h3>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {intenseArray?.map((track) => {
                 return (
@@ -344,6 +351,7 @@ export const SongList = () => {
               variant="contained"
               color="default"
               size="large"
+              style={{ backgroundColor: "white", color: "black" }}
               className={classes.button}
               startIcon={<SaveAltIcon />}
               onClick={() =>
@@ -361,7 +369,7 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3>Sad</h3>
+            <h3 className={classes.header}>Sad</h3>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {sadArray?.map((track) => {
                 return (
@@ -398,6 +406,7 @@ export const SongList = () => {
               variant="contained"
               color="default"
               size="large"
+              style={{ backgroundColor: "white", color: "black" }}
               className={classes.button}
               startIcon={<SaveAltIcon />}
               onClick={() =>
