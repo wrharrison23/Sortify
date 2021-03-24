@@ -37,7 +37,7 @@ export const SongProvider = (props) => {
     spotifyApi
       .getMyTopTracks({
         time_range: "medium_term",
-        limit: 20,
+        limit: 50,
       })
       .then((r) => {
         trackArray = buildTrackArray(r)
@@ -66,7 +66,7 @@ export const SongProvider = (props) => {
     let chillIds = [];
     
     features.audio_features.filter((feature) => {
-      if (feature.danceability > 0.6) {
+      if (feature.danceability > 0.6 && feature.energy > .5) {
         danceIds.push(feature.id);
       }
       if (feature.valence > 0.6 && feature.energy > 0.3) {
@@ -75,10 +75,10 @@ export const SongProvider = (props) => {
       if (feature.energy > 0.75) {
         intenseIds.push(feature.id);
       }
-      if (feature.energy > 0.3 && feature.valence > 0.25) {
+      if (feature.energy < .8 && feature.valence > .45) {
         chillIds.push(feature.id);
       }
-      if (feature.valence < 0.3 && feature.energy < 0.6) {
+      if (feature.valence < 0.4 && feature.energy < .6) {
         sadIds.push(feature.id);
       }
     });
@@ -209,7 +209,12 @@ const CreatePlaylist = (
         feelGoodArray,
         savePlaylist,
         getTopTracks,
-        getFeatures
+        getFeatures,
+        setChillArray,
+        setSadArray,
+        setIntenseArray,
+        setDanceArray,
+        setFeelGoodArray
       }}
     >
       {props.children}
