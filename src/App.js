@@ -10,6 +10,8 @@ import { SongProvider } from "./Providers/SpotifyProvider";
 import SpotifyWebApi from "spotify-web-api-js";
 import "./App.css";
 import logo from "./Sortify.png"
+import logoWhite from "./Logo-white.png"
+
 const spotifyApi = new SpotifyWebApi();
 
 export const App = () => {

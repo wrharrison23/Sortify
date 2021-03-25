@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20
   },
   songCard: {
-    height: 60,
+    height: 70,
   },
   details: {
     display: "flex",
