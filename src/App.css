@@ -50,7 +50,7 @@
   /* background: linear-gradient(to right, #0f2027, #203a43, #2c5364); */
     /* background: linear-gradient(to right, #2b5876, #4e4376); */
     /* background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); */
-    background: linear-gradient(to top, #3a7bd5, #3a6073);
+    background: linear-gradient(to bottom, #3a7bd5, #3a6073);
 }
 ::-webkit-scrollbar {
   width: .5em;
@@ -70,7 +70,7 @@
   background-color: #203647;
 } */
 .logoDiv {
-  height: 100vh;
+  height: 90vh;
   text-align: center;
 }
 h3 {

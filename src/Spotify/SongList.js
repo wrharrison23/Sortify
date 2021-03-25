@@ -204,61 +204,6 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3 className={classes.header}>Chill</h3>
-            <div style={{ maxHeight: 600, overflow: "auto" }}>
-              {chillArray?.map((track) => {
-                return (
-                  <Row key={track.id} className={classes.songCard}>
-                    <Item>
-                      <Avatar
-                        variant={"rounded"}
-                        classes={avatarStyles}
-                        src={track.imageUrl}
-                      />
-                    </Item>
-                    <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
-                      <InfoSubtitle>{track.artist}</InfoSubtitle>
-                    </Info>
-                    <Item position={"right"}>
-                      <IconButton
-                        onClick={() => handleDelete(track.id, chillArray)}
-                        aria-label="delete"
-                        className={classes.margin}
-                        size="small"
-                      >
-                        <DeleteIcon
-                          style={{ backgroundColor: "inherit", color: "white" }}
-                          fontSize="small"
-                        />
-                      </IconButton>
-                    </Item>
-                  </Row>
-                );
-              })}
-            </div>
-            <Button
-              variant="contained"
-              color="default"
-              size="large"
-              style={{ backgroundColor: "white", color: "black" }}
-              className={classes.button}
-              startIcon={<SaveAltIcon />}
-              onClick={() =>
-                handleSavePlaylist(
-                  "Sortify - Chill",
-                  "Songs to relax to - created by Sortify",
-                  chillArray
-                )
-              }
-            >
-              Save
-            </Button>
-          </Column>
-        </Grid>
-
-        <Grid item xs={5}>
-          <Column gap={1}>
             <h3 className={classes.header}>Feel-good</h3>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {feelGoodArray?.map((track) => {
@@ -359,6 +304,61 @@ export const SongList = () => {
                   "Sortify - Intense",
                   "Intense songs - created by Sortify",
                   intenseArray
+                )
+              }
+            >
+              Save
+            </Button>
+          </Column>
+        </Grid>
+
+        <Grid item xs={5}>
+          <Column gap={1}>
+            <h3 className={classes.header}>Chill</h3>
+            <div style={{ maxHeight: 600, overflow: "auto" }}>
+              {chillArray?.map((track) => {
+                return (
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
+                      <IconButton
+                        onClick={() => handleDelete(track.id, chillArray)}
+                        aria-label="delete"
+                        className={classes.margin}
+                        size="small"
+                      >
+                        <DeleteIcon
+                          style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                    </Item>
+                  </Row>
+                );
+              })}
+            </div>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<SaveAltIcon />}
+              onClick={() =>
+                handleSavePlaylist(
+                  "Sortify - Chill",
+                  "Songs to relax to - created by Sortify",
+                  chillArray
                 )
               }
             >
