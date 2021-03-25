@@ -12,14 +12,23 @@ import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import Card from "@material-ui/core/Card";
-
+import { Row, Column, Item } from "@mui-treasury/components/flex";
+import {
+  Info,
+  InfoTitle,
+  InfoSubtitle,
+  InfoCaption,
+} from "@mui-treasury/components/info";
+import { useDynamicAvatarStyles } from "@mui-treasury/styles/avatar/dynamic";
+import { useD01InfoStyles } from "@mui-treasury/styles/info/d01";
+import Avatar from "@material-ui/core/Avatar";
+import "../App.css"
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+   display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
     flexGrow: 1,
-    textAlign: "center",
     backGroundColor: "#203647",
   },
   paper: {
@@ -36,13 +45,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backGroundColor: "white",
     width: "100%",
+    borderRadius: 20
   },
   songCard: {
-    display: "flex",
-    height: 60,
-    width: 400,
-    backgroundColor: "#EEFBFB",
-    borderRadius: 0,
+    height: 70,
   },
   details: {
     display: "flex",
@@ -67,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
   margin: {
     spacing: 0,
   },
+  header:{
+    alignSelf: "center"
+  }
 }));
 
 const theme = createMuiTheme({
@@ -131,52 +140,32 @@ export const SongList = () => {
       setFeelGoodArray(filteredPlaylist)
   } 
   }
+
+  const avatarStyles = useDynamicAvatarStyles({ size: 60 });
+
   return (
     <>
       {/* <button onClick={buildMoodLists}>Get moods</button> */}
-      <Grid container className={classes.container}>
-        <div className={classes.root}>
-          <Grid item xs={5}>
-            <h3>Party</h3>
-            <div>
+      <Grid container className={classes.root}>
+        <Grid item xs={5}>
+          <Column gap={2} width={"100%"} className={classes.col}>
+            <h3 className={classes.header}>Party</h3>
+            <div style={{ maxHeight: 600, overflow: "auto" }}>
               {danceArray?.map((track) => {
                 return (
-                  <Card className={classes.songCard} key={track.id}>
-                    <CardMedia
-                      component="img"
-                      className={classes.cover}
-                      src={track.imageUrl}
-                    />
-
-                    <Grid
-                      container
-                      direction="row"
-                      justify="flex-end"
-                      alignItems="center"
-                      style={{ backgroundColor: "white" }}
-                    >
-                      <CardContent
-                        className={classes.content}
-                        style={{ backgroundColor: "white" }}
-                      >
-                        <ThemeProvider theme={theme}>
-                          <Typography
-                            component="h5"
-                            variant="h5"
-                            className="trackName"
-                            style={{ backgroundColor: "white" }}
-                          >
-                            {track.name}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            color="textSecondary"
-                            style={{ backgroundColor: "white" }}
-                          >
-                            {track.artist}
-                          </Typography>
-                        </ThemeProvider>
-                      </CardContent>
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
                       <IconButton
                         onClick={() => handleDelete(track.id, danceArray)}
                         aria-label="delete"
@@ -184,159 +173,54 @@ export const SongList = () => {
                         size="small"
                       >
                         <DeleteIcon
-                          
-                          className="delete"
-                          style={{ backgroundColor: "white" }}
+                          style={{ backgroundColor: "inherit", color: "white" }}
                           fontSize="small"
                         />
                       </IconButton>
-                    </Grid>
-                  </Card>
+                    </Item>
+                  </Row>
                 );
               })}
             </div>
-            <Grid item xs={8}>
-              <Button
-                variant="contained"
-                color="default"
-                size="large"
-                className={classes.button}
-                startIcon={<SaveAltIcon />}
-                onClick={() =>
-                  handleSavePlaylist(
-                    "Sortify - Dance",
-                    "Songs to dance to - created by Sortify",
-                    danceArray
-                  )
-                }
-              >
-                Save
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid item xs={5}>
-            <h3>Chill</h3>
-            <div>
-              {chillArray?.map((track) => {
-                return (
-                  <Card className={classes.songCard} key={track.id}>
-                    <CardMedia
-                      component="img"
-                      className={classes.cover}
-                      src={track.imageUrl}
-                    />
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<SaveAltIcon />}
+              onClick={() =>
+                handleSavePlaylist(
+                  "Sortify - Dance",
+                  "Songs to dance to - created by Sortify",
+                  danceArray
+                )
+              }
+            >
+              Save
+            </Button>
+          </Column>
+        </Grid>
 
-                    <Grid
-                      container
-                      direction="row"
-                      justify="flex-end"
-                      alignItems="center"
-                      style={{ backgroundColor: "white" }}
-                    >
-                      <CardContent
-                        className={classes.content}
-                        style={{ backgroundColor: "white" }}
-                      >
-                        <ThemeProvider theme={theme}>
-                          <Typography
-                            component="h5"
-                            variant="h5"
-                            className="trackName"
-                            style={{ backgroundColor: "white" }}
-                          >
-                            {track.name}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            color="textSecondary"
-                            style={{ backgroundColor: "white" }}
-                          >
-                            {track.artist}
-                          </Typography>
-                        </ThemeProvider>
-                      </CardContent>
-                      <IconButton
-                        onClick={() => handleDelete(track.id, chillArray)}
-                        aria-label="delete"
-                        className={classes.margin}
-                        size="small"
-                      >
-                        <DeleteIcon
-                          className="delete"
-                          style={{ backgroundColor: "white" }}
-                          fontSize="small"
-                        />
-                      </IconButton>
-                    </Grid>
-                  </Card>
-                );
-              })}
-            </div>
-            <Grid item xs={8}>
-              <Button
-                variant="contained"
-                color="default"
-                size="large"
-                className={classes.button}
-                startIcon={<SaveAltIcon />}
-                onClick={() =>
-                  handleSavePlaylist(
-                    "Sortify - Chill",
-                    "Songs to relax to - created by Sortify",
-                    chillArray
-                  )
-                }
-              >
-                Save
-              </Button>
-            </Grid>
-          </Grid>
-        </div>
-      </Grid>
-
-      <Grid container>
-        <div className={classes.root}>
-          <Grid item xs={5}>
-            <h3>Feel-good</h3>
-            <div>
+        <Grid item xs={5}>
+          <Column gap={1}>
+            <h3 className={classes.header}>Feel-good</h3>
+            <div style={{ maxHeight: 600, overflow: "auto" }}>
               {feelGoodArray?.map((track) => {
                 return (
-                  <Card className={classes.songCard} key={track.id}>
-                    <CardMedia
-                      component="img"
-                      className={classes.cover}
-                      src={track.imageUrl}
-                    />
-
-                    <Grid
-                      container
-                      direction="row"
-                      justify="flex-end"
-                      alignItems="center"
-                      style={{ backgroundColor: "white" }}
-                    >
-                      <CardContent
-                        className={classes.content}
-                        style={{ backgroundColor: "white" }}
-                      >
-                        <ThemeProvider theme={theme}>
-                          <Typography
-                            component="h5"
-                            variant="h5"
-                            className="trackName"
-                            style={{ backgroundColor: "white" }}
-                          >
-                            {track.name}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            color="textSecondary"
-                            style={{ backgroundColor: "white" }}
-                          >
-                            {track.artist}
-                          </Typography>
-                        </ThemeProvider>
-                      </CardContent>
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
                       <IconButton
                         onClick={() => handleDelete(track.id, feelGoodArray)}
                         aria-label="delete"
@@ -344,76 +228,54 @@ export const SongList = () => {
                         size="small"
                       >
                         <DeleteIcon
-                          className="delete"
-                          style={{ backgroundColor: "white" }}
+                          style={{ backgroundColor: "inherit", color: "white" }}
                           fontSize="small"
                         />
                       </IconButton>
-                    </Grid>
-                  </Card>
+                    </Item>
+                  </Row>
                 );
               })}
             </div>
-            <Grid item xs={8}>
-              <Button
-                variant="contained"
-                color="default"
-                size="large"
-                className={classes.button}
-                startIcon={<SaveAltIcon />}
-                onClick={() =>
-                  handleSavePlaylist(
-                    "Sortify - Feel-good",
-                    "Feel-good songs - created by Sortify",
-                    feelGoodArray
-                  )
-                }
-              >
-                Save
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid item xs={5}>
-            <h3>Energetic</h3>
-            <div>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<SaveAltIcon />}
+              onClick={() =>
+                handleSavePlaylist(
+                  "Sortify - Feel-good",
+                  "Feel-good songs - created by Sortify",
+                  feelGoodArray
+                )
+              }
+            >
+              Save
+            </Button>
+          </Column>
+        </Grid>
+
+        <Grid item xs={5}>
+          <Column gap={1}>
+            <h3 className={classes.header}>Energetic</h3>
+            <div style={{ maxHeight: 600, overflow: "auto" }}>
               {intenseArray?.map((track) => {
                 return (
-                  <Card className={classes.songCard} key={track.id}>
-                    <CardMedia
-                      component="img"
-                      className={classes.cover}
-                      src={track.imageUrl}
-                    />
-
-                    <Grid
-                      container
-                      direction="row"
-                      justify="flex-end"
-                      alignItems="center"
-                      style={{ backgroundColor: "white" }}
-                    >
-                      <CardContent
-                        className={classes.content}
-                        style={{ backgroundColor: "white" }}
-                      >
-                        <ThemeProvider theme={theme}>
-                          <Typography
-                            component="h5"
-                            variant="h5"
-                            className="trackName"
-                            style={{ backgroundColor: "white" }}
-                          >
-                            {track.name}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            color="textSecondary"
-                            style={{ backgroundColor: "white" }}
-                          >
-                            {track.artist}
-                          </Typography>
-                        </ThemeProvider>
-                      </CardContent>
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
                       <IconButton
                         onClick={() => handleDelete(track.id, intenseArray)}
                         aria-label="delete"
@@ -421,113 +283,143 @@ export const SongList = () => {
                         size="small"
                       >
                         <DeleteIcon
-                          className="delete"
-                          style={{ backgroundColor: "white" }}
+                          style={{ backgroundColor: "inherit", color: "white" }}
                           fontSize="small"
                         />
                       </IconButton>
-                    </Grid>
-                  </Card>
+                    </Item>
+                  </Row>
                 );
               })}
             </div>
-            <Grid item xs={8}>
-              <Button
-                variant="contained"
-                color="default"
-                size="large"
-                className={classes.button}
-                startIcon={<SaveAltIcon />}
-                onClick={() =>
-                  handleSavePlaylist(
-                    "Sortify - Intense",
-                    "Intense songs - created by Sortify",
-                    intenseArray
-                  )
-                }
-              >
-                Save
-              </Button>
-            </Grid>
-          </Grid>
-        </div>
-      </Grid>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<SaveAltIcon />}
+              onClick={() =>
+                handleSavePlaylist(
+                  "Sortify - Intense",
+                  "Intense songs - created by Sortify",
+                  intenseArray
+                )
+              }
+            >
+              Save
+            </Button>
+          </Column>
+        </Grid>
 
-      <Grid item xs={5}>
-        <h3>Sad</h3>
-        <div>
-          {sadArray?.map((track) => {
-            return (
-              <Card className={classes.songCard} key={track.id}>
-                <CardMedia
-                  component="img"
-                  className={classes.cover}
-                  src={track.imageUrl}
-                />
+        <Grid item xs={5}>
+          <Column gap={1}>
+            <h3 className={classes.header}>Chill</h3>
+            <div style={{ maxHeight: 600, overflow: "auto" }}>
+              {chillArray?.map((track) => {
+                return (
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
+                      <IconButton
+                        onClick={() => handleDelete(track.id, chillArray)}
+                        aria-label="delete"
+                        className={classes.margin}
+                        size="small"
+                      >
+                        <DeleteIcon
+                          style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                    </Item>
+                  </Row>
+                );
+              })}
+            </div>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<SaveAltIcon />}
+              onClick={() =>
+                handleSavePlaylist(
+                  "Sortify - Chill",
+                  "Songs to relax to - created by Sortify",
+                  chillArray
+                )
+              }
+            >
+              Save
+            </Button>
+          </Column>
+        </Grid>
 
-                <Grid
-                  container
-                  direction="row"
-                  justify="flex-end"
-                  alignItems="center"
-                  style={{ backgroundColor: "white" }}
-                >
-                  <CardContent
-                    className={classes.content}
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <ThemeProvider theme={theme}>
-                      <Typography
-                        component="h5"
-                        variant="h5"
-                        className="trackName"
-                        style={{ backgroundColor: "white" }}
+        <Grid item xs={5}>
+          <Column gap={1}>
+            <h3 className={classes.header}>Sad</h3>
+            <div style={{ maxHeight: 600, overflow: "auto" }}>
+              {sadArray?.map((track) => {
+                return (
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
+                      <IconButton
+                        onClick={() => handleDelete(track.id, sadArray)}
+                        aria-label="delete"
+                        className={classes.margin}
+                        size="small"
                       >
-                        {track.name}
-                      </Typography>
-                      <Typography
-                        variant="subtitle1"
-                        color="textSecondary"
-                        style={{ backgroundColor: "white" }}
-                      >
-                        {track.artist}
-                      </Typography>
-                    </ThemeProvider>
-                  </CardContent>
-                  <IconButton
-                    onClick={() => handleDelete(track.id, sadArray)}
-                    aria-label="delete"
-                    className={classes.margin}
-                    size="small"
-                  >
-                    <DeleteIcon
-                      className="delete"
-                      style={{ backgroundColor: "white" }}
-                      fontSize="small"
-                    />
-                  </IconButton>
-                </Grid>
-              </Card>
-            );
-          })}
-        </div>
-        <Grid item xs={8}>
-          <Button
-            variant="contained"
-            color="default"
-            size="large"
-            className={classes.button}
-            startIcon={<SaveAltIcon />}
-            onClick={() =>
-              handleSavePlaylist(
-                "Sortify - Sad",
-                "Wanna cry? I gotchu- created by Sortify",
-                sadArray
-              )
-            }
-          >
-            Save
-          </Button>
+                        <DeleteIcon
+                          style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                    </Item>
+                  </Row>
+                );
+              })}
+            </div>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<SaveAltIcon />}
+              onClick={() =>
+                handleSavePlaylist(
+                  "Sortify - Sad",
+                  "Wanna cry? I gotchu- created by Sortify",
+                  sadArray
+                )
+              }
+            >
+              Save
+            </Button>
+          </Column>
         </Grid>
       </Grid>
     </>

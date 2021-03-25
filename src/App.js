@@ -9,6 +9,8 @@ import "react-spotify-auth/dist/index.css";
 import { SongProvider } from "./Providers/SpotifyProvider";
 import SpotifyWebApi from "spotify-web-api-js";
 import "./App.css";
+import logo from "./assets/Sortify.png"
+import logoWhite from "./Logo-white.png"
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -24,6 +26,9 @@ export const App = () => {
     <div className="app">
       {token ? (
         <SongProvider>
+          <div className="logoDiv">
+            <img src={logo} alt="#" className="logo"/>
+          </div>
           <div className="songListContainer">
             <SongList />
           </div>
