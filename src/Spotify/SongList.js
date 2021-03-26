@@ -23,13 +23,17 @@ import { useDynamicAvatarStyles } from "@mui-treasury/styles/avatar/dynamic";
 import { useD01InfoStyles } from "@mui-treasury/styles/info/d01";
 import Avatar from "@material-ui/core/Avatar";
 import "../App.css"
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import AddIcon from "@material-ui/icons/Add";
 const useStyles = makeStyles((theme) => ({
   root: {
    display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
     flexGrow: 1,
-    backGroundColor: "#203647",
   },
   paper: {
     textAlign: "center",
@@ -106,13 +110,19 @@ export const SongList = () => {
     savePlaylist,
     getTopTracks,
     getFeatures,
-    getGenreSeeds
+    getRecommendations,
+    danceRecs,
+    feelGoodRecs,
+    intenseRecs,
+    chillRecs,
+    sadRecs
   } = useContext(SpotifyContext);
 
   const classes = useStyles();
 
   useEffect(() => {
-    getTopTracks().then(getFeatures)
+    getTopTracks()
+      .then(getFeatures)
   }, []);
 
   const handleSavePlaylist = (playlistName, description, songArray) => {
@@ -147,7 +157,11 @@ export const SongList = () => {
   return (
     <>
       {/* <button onClick={buildMoodLists}>Get moods</button> */}
-      <Grid container className={classes.root}>
+      <Grid
+        container
+        className={classes.root}
+        style={{ backgroundColor: "inherit" }}
+      >
         <Grid item xs={5}>
           <Column gap={2} width={"100%"} className={classes.col}>
             <h3 className={classes.header}>Party</h3>
@@ -182,6 +196,39 @@ export const SongList = () => {
                   </Row>
                 );
               })}
+              <h5>Recommended Songs</h5>
+              {danceRecs?.map((track) => {
+                return (
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
+                      <IconButton
+                        aria-label="delete"
+                        className={classes.margin}
+                        size="small"
+                      >
+                        <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                    </Item>
+                  </Row>
+                );
+              })}
             </div>
             <Button
               variant="contained"
@@ -196,21 +243,6 @@ export const SongList = () => {
                   "Songs to dance to - created by Sortify",
                   danceArray
                 )
-              }
-            >
-              Save
-            </Button>
-            <Button
-              variant="contained"
-              color="default"
-              size="large"
-              style={{ backgroundColor: "white", color: "black" }}
-              className={classes.button}
-              startIcon={<SaveAltIcon />}
-              onClick={() =>
-               getGenreSeeds(danceArray)
-                  
-                
               }
             >
               Save
@@ -252,7 +284,43 @@ export const SongList = () => {
                   </Row>
                 );
               })}
+              <h5>Recommended Songs</h5>
+              <div style={{borderTop:"1px solid black"}}>
+              {feelGoodRecs?.map((track) => {
+                return (
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
+                      <IconButton
+                        aria-label="delete"
+                        className={classes.margin}
+                        size="small"
+                      >
+                        <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                    </Item>
+                  </Row>
+                );
+              })}
+              </div>
             </div>
+
             <Button
               variant="contained"
               color="default"
@@ -307,7 +375,41 @@ export const SongList = () => {
                   </Row>
                 );
               })}
+              <h5>Recommended Songs</h5>
+              {intenseRecs?.map((track) => {
+                return (
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
+                      <IconButton
+                        aria-label="delete"
+                        className={classes.margin}
+                        size="small"
+                      >
+                        <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                    </Item>
+                  </Row>
+                );
+              })}
             </div>
+
             <Button
               variant="contained"
               color="default"
@@ -355,6 +457,39 @@ export const SongList = () => {
                       >
                         <DeleteIcon
                           style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                    </Item>
+                  </Row>
+                );
+              })}
+              <h5>Recommended Songs</h5>
+              {chillRecs?.map((track) => {
+                return (
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
+                      <IconButton
+                        aria-label="delete"
+                        className={classes.margin}
+                        size="small"
+                      >
+                        <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
                           fontSize="small"
                         />
                       </IconButton>
@@ -417,7 +552,41 @@ export const SongList = () => {
                   </Row>
                 );
               })}
+              <h5>Recommended Songs</h5>
+              {sadRecs?.map((track) => {
+                return (
+                  <Row key={track.id} className={classes.songCard}>
+                    <Item>
+                      <Avatar
+                        variant={"rounded"}
+                        classes={avatarStyles}
+                        src={track.imageUrl}
+                      />
+                    </Item>
+                    <Info useStyles={useD01InfoStyles}>
+                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoSubtitle>{track.artist}</InfoSubtitle>
+                    </Info>
+                    <Item position={"right"}>
+                      <IconButton
+                        aria-label="delete"
+                        className={classes.margin}
+                        size="small"
+                      >
+                        <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                    </Item>
+                  </Row>
+                );
+              })}
             </div>
+
             <Button
               variant="contained"
               color="default"

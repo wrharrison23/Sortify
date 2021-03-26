@@ -15,6 +15,12 @@ export const SongProvider = (props) => {
   const [intenseArray, setIntenseArray] = useState([]);
   const [chillArray, setChillArray] = useState([]);
   const [sadArray, setSadArray] = useState([]);
+  const [danceRecs, setDanceRecs] = useState([])
+  const [chillRecs, setChillRecs] = useState([])
+  const [intenseRecs, setIntenseRecs] = useState([])
+  const [feelGoodRecs, setFeelGoodRecs] = useState([])
+  const [sadRecs, setSadRecs] = useState([])
+
   const genreSeeds = [
     "acoustic",
     "afrobeat",
@@ -187,27 +193,120 @@ export const SongProvider = (props) => {
       .then(buildMoodLists)
   };
 
-  const getGenreSeeds = (songArray) => {
-    let idString = []
-    let genres = []
-    let artists
-    songArray.forEach((song) => {
-      idString.push(song.artistId)
-    })
-    spotifyApi
-      .getArtists(idString)
-      .then((r) =>{ 
-        artists = r}
-      ).then(() => {
-        artists.forEach((artist) => {
-          genres.push(artist.genres);
-        });
-      })
-  }
-
-  // const getRecommendations = (songArray) => {
-  //   let genre = getGenreSeeds(songArray)
+  // const buildGenreArray = (artists) => {
+  //   let genreArray = []
+  //   artists.forEach((artist) => {
+  //     genreArray.push(artist.genres)
+  //   })
+  //   genreArray = genreArray.flat()
+  //   return genreArray
   // }
+
+  // let genres = [];
+  // const getGenreSeeds = (songArray) => {
+  //   let idString = ""
+  //   let artists
+  //   songArray.forEach((song) => {
+  //     idString += song.artistId + ","
+  //   }).then(() => {
+  //      spotifyApi
+  //        .getArtists(idString)
+  //        .then((r) => {
+  //          buildGenreArray(r)
+  //        })
+  //        .then(() => {
+  //          artists.forEach((artist) => {
+  //            genres.push(artist.genres);
+  //          });
+  //        })
+  //   })
+   
+  // }
+
+    const buildRecArray = (r) => {
+      let trackArray = [];
+      r.tracks.forEach((track) => {
+        trackArray.push({
+          name: track.name,
+          id: track.id,
+          artist: track.artists[0].name,
+          artistId: track.artists[0].id,
+          imageUrl: track.album.images[1].url,
+        });
+      });
+      return trackArray;
+    };
+
+  const getRecommendations = (songArray, listName) => {
+    let options = {}
+    let artistIds = "";
+    let songIds = "";
+
+    for (let i = 0; i < 2; i++) {
+      artistIds += songArray[i].artistId + ",";
+      songIds += songArray[i].id + ",";
+    }
+
+   if(listName === "dance"){
+      options = {
+        "limit": 10,
+        "seed_artists": artistIds,
+        "seed_genres": "dance",
+        "seed_tracks": songIds,
+        "min_danceability": 0.6,
+        "min_energy": 0.5,
+      };
+    } else if(listName === "chill"){
+      options = {
+      "limit": 10,
+      "seed_artists": artistIds,
+      "seed_genres": "chill",
+      "seed_tracks": songIds,
+      "max_energy": 0.8,
+      "min_valence": 0.45,
+    };
+    } else if (listName === "intense"){
+      options = {
+      "limit": 10,
+      "seed_artists": artistIds,
+      "seed_genres": "work-out",
+      "seed_tracks": songIds,
+      "min_energy": 0.75,
+    };
+    } else if (listName === "feelGood"){
+      options = {
+      "limit": 10,
+      "seed_artists": artistIds,
+      "seed_genres": "happy",
+      "seed_tracks": songIds,
+      "min_energy": 0.3,
+      "min_valence": 0.6,
+    };
+    } else if (listName == "sad") {
+      options = {
+      "limit": 10,
+      "seed_artists": artistIds,
+      "seed_genres": "sad",
+      "seed_tracks": songIds,
+      "max_energy": 0.6,
+      "max_valence": 0.4,
+    };
+    }
+
+    spotifyApi.getRecommendations(options).then((r) => {
+      if (listName === "dance") {
+        setDanceRecs(buildRecArray(r));
+      } else if (listName === "chill") {
+        setChillRecs(buildRecArray(r));
+      } else if (listName === "sad") {
+        setSadRecs(buildRecArray(r));
+      } else if (listName === "intense") {
+        setIntenseRecs(buildRecArray(r));
+      } else if (listName === "feelGood") {
+        setFeelGoodRecs(buildRecArray(r));
+      }
+    });
+  };
 
   const buildMoodLists = () => {
     let danceIds = [];
@@ -238,8 +337,8 @@ export const SongProvider = (props) => {
     // setIntenseIdArray(intenseIds);
     // setChillIdArray(chillIds);
     // setSadIdArray(sadIds);
-    CreatePlaylist(danceIds, feelGoodIds, sadIds, intenseIds, chillIds);
-  };
+    CreatePlaylist(danceIds, feelGoodIds, sadIds, intenseIds, chillIds)
+};
 
 const CreatePlaylist = (
   danceIdArray,
@@ -248,8 +347,6 @@ const CreatePlaylist = (
   intenseIdArray,
   chillIdArray
 ) => {
-  
-
   let danceList = [];
   let feelGoodList = [];
   let intenseList = [];
@@ -269,6 +366,7 @@ const CreatePlaylist = (
       playlist: "dance",
     });
   });
+  getRecommendations(danceList, "dance")
   setDanceArray(danceList);
   
   feelGoodIdArray.map((featureId) => {
@@ -278,11 +376,13 @@ const CreatePlaylist = (
     feelGoodList.push({
       name: relatedTrack.name,
       artist: relatedTrack.artist,
+      artistId: relatedTrack.artistId,
       imageUrl: relatedTrack.imageUrl,
       id: relatedTrack.id,
       playlist: "feelGood",
     });
   });
+  getRecommendations(feelGoodList, "feelGood");
   setFeelGoodArray(feelGoodList);
 
   intenseIdArray.map((featureId) => {
@@ -292,11 +392,13 @@ const CreatePlaylist = (
     intenseList.push({
       name: relatedTrack.name,
       artist: relatedTrack.artist,
+      artistId: relatedTrack.artistId,
       imageUrl: relatedTrack.imageUrl,
       id: relatedTrack.id,
       playlist: "intense",
     });
   });
+  getRecommendations(intenseList, "intense");
   setIntenseArray(intenseList);
 
   sadIdArray.map((featureId) => {
@@ -306,11 +408,13 @@ const CreatePlaylist = (
     sadList.push({
       name: relatedTrack.name,
       artist: relatedTrack.artist,
+      artistId: relatedTrack.artistId,
       imageUrl: relatedTrack.imageUrl,
       id: relatedTrack.id,
       playlist: "sad",
     });
   });
+  getRecommendations(sadList, "sad");
   setSadArray(sadList);
 
   chillIdArray.map((featureId) => {
@@ -320,12 +424,14 @@ const CreatePlaylist = (
     chillList.push({
       name: relatedTrack.name,
       artist: relatedTrack.artist,
+      artistId: relatedTrack.artistId,
       imageUrl: relatedTrack.imageUrl,
       id: relatedTrack.id,
       playlist: "chill",
     });
   });
-  setChillArray(chillList);
+  getRecommendations(chillList, "chill");
+  setChillArray(chillList)
 };
 
   const savePlaylist = (playlistName, description, uris) => {
@@ -367,7 +473,12 @@ const CreatePlaylist = (
         setIntenseArray,
         setDanceArray,
         setFeelGoodArray, 
-        getGenreSeeds
+        getRecommendations,
+        danceRecs,
+        intenseRecs,
+        sadRecs,
+        feelGoodRecs,
+        chillRecs
       }}
     >
       {props.children}
