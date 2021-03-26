@@ -106,6 +106,7 @@ export const SongList = () => {
     savePlaylist,
     getTopTracks,
     getFeatures,
+    getGenreSeeds
   } = useContext(SpotifyContext);
 
   const classes = useStyles();
@@ -195,6 +196,21 @@ export const SongList = () => {
                   "Songs to dance to - created by Sortify",
                   danceArray
                 )
+              }
+            >
+              Save
+            </Button>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<SaveAltIcon />}
+              onClick={() =>
+               getGenreSeeds(danceArray)
+                  
+                
               }
             >
               Save

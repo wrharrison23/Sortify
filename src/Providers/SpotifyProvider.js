@@ -15,19 +15,134 @@ export const SongProvider = (props) => {
   const [intenseArray, setIntenseArray] = useState([]);
   const [chillArray, setChillArray] = useState([]);
   const [sadArray, setSadArray] = useState([]);
-
-  const buildTrackArray = (r) => {
-    let trackArray = [];
-    r.items.forEach((track) => {
-      trackArray.push({
-        name: track.name,
-        id: track.id,
-        artist: track.artists[0].name,
-        imageUrl: track.album.images[1].url,
-      });
-    });
-    return trackArray;
-  };
+  const genreSeeds = [
+    "acoustic",
+    "afrobeat",
+    "alt-rock",
+    "alternative",
+    "ambient",
+    "anime",
+    "black-metal",
+    "bluegrass",
+    "blues",
+    "bossanova",
+    "brazil",
+    "breakbeat",
+    "british",
+    "cantopop",
+    "chicago-house",
+    "children",
+    "chill",
+    "classical",
+    "club",
+    "comedy",
+    "country",
+    "dance",
+    "dancehall",
+    "death-metal",
+    "deep-house",
+    "detroit-techno",
+    "disco",
+    "disney",
+    "drum-and-bass",
+    "dub",
+    "dubstep",
+    "edm",
+    "electro",
+    "electronic",
+    "emo",
+    "folk",
+    "forro",
+    "french",
+    "funk",
+    "garage",
+    "german",
+    "gospel",
+    "goth",
+    "grindcore",
+    "groove",
+    "grunge",
+    "guitar",
+    "happy",
+    "hard-rock",
+    "hardcore",
+    "hardstyle",
+    "heavy-metal",
+    "hip-hop",
+    "holidays",
+    "honky-tonk",
+    "house",
+    "idm",
+    "indian",
+    "indie",
+    "indie-pop",
+    "industrial",
+    "iranian",
+    "j-dance",
+    "j-idol",
+    "j-pop",
+    "j-rock",
+    "jazz",
+    "k-pop",
+    "kids",
+    "latin",
+    "latino",
+    "malay",
+    "mandopop",
+    "metal",
+    "metal-misc",
+    "metalcore",
+    "minimal-techno",
+    "movies",
+    "mpb",
+    "new-age",
+    "new-release",
+    "opera",
+    "pagode",
+    "party",
+    "philippines-opm",
+    "piano",
+    "pop",
+    "pop-film",
+    "post-dubstep",
+    "power-pop",
+    "progressive-house",
+    "psych-rock",
+    "punk",
+    "punk-rock",
+    "r-n-b",
+    "rainy-day",
+    "reggae",
+    "reggaeton",
+    "road-trip",
+    "rock",
+    "rock-n-roll",
+    "rockabilly",
+    "romance",
+    "sad",
+    "salsa",
+    "samba",
+    "sertanejo",
+    "show-tunes",
+    "singer-songwriter",
+    "ska",
+    "sleep",
+    "songwriter",
+    "soul",
+    "soundtracks",
+    "spanish",
+    "study",
+    "summer",
+    "swedish",
+    "synth-pop",
+    "tango",
+    "techno",
+    "trance",
+    "trip-hop",
+    "turkish",
+    "work-out",
+    "world-music",
+  ];
 
   let trackArray = []
 
@@ -45,6 +160,20 @@ export const SongProvider = (props) => {
     )
   };
 
+  const buildTrackArray = (r) => {
+    let trackArray = [];
+    r.items.forEach((track) => {
+      trackArray.push({
+        name: track.name,
+        id: track.id,
+        artist: track.artists[0].name,
+        artistId: track.artists[0].id,
+        imageUrl: track.album.images[1].url,
+      });
+    });
+    return trackArray;
+  };
+
   let features = []
 
   const getFeatures = () => {
@@ -57,6 +186,28 @@ export const SongProvider = (props) => {
       .then((r) => features = r)
       .then(buildMoodLists)
   };
+
+  const getGenreSeeds = (songArray) => {
+    let idString = []
+    let genres = []
+    let artists
+    songArray.forEach((song) => {
+      idString.push(song.artistId)
+    })
+    spotifyApi
+      .getArtists(idString)
+      .then((r) =>{ 
+        artists = r}
+      ).then(() => {
+        artists.forEach((artist) => {
+          genres.push(artist.genres);
+        });
+      })
+  }
+
+  // const getRecommendations = (songArray) => {
+  //   let genre = getGenreSeeds(songArray)
+  // }
 
   const buildMoodLists = () => {
     let danceIds = [];
@@ -112,6 +263,7 @@ const CreatePlaylist = (
     danceList.push({
       name: relatedTrack.name,
       artist: relatedTrack.artist,
+      artistId: relatedTrack.artistId,
       imageUrl: relatedTrack.imageUrl,
       id: relatedTrack.id,
       playlist: "dance",
@@ -214,7 +366,8 @@ const CreatePlaylist = (
         setSadArray,
         setIntenseArray,
         setDanceArray,
-        setFeelGoodArray
+        setFeelGoodArray, 
+        getGenreSeeds
       }}
     >
       {props.children}
