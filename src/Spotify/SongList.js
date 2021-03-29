@@ -199,7 +199,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle className={classes.trackName}>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -776,17 +778,18 @@ export const SongList = () => {
         </Grid>
         <footer className={classes.footer}>
           {URIs.length !== 0 ? (
-          <SpotifyPlayer
-            token={localStorage.getItem("accessToken")}
-            uris={URIs}
-            play={playState}
-            
-            styles={{
-              sliderColor: "#3a7bd5",
-            }}
-          />
-          ) :
-          <div></div>}
+            <SpotifyPlayer
+              token={localStorage.getItem("accessToken")}
+              uris={URIs}
+              play={playState}
+              initialVolume={.75}
+              styles={{
+                sliderColor: "#3a7bd5",
+              }}
+            />
+          ) : (
+            <div></div>
+          )}
         </footer>
       </Grid>
     </>
