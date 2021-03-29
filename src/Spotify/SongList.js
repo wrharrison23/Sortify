@@ -115,7 +115,12 @@ export const SongList = () => {
     feelGoodRecs,
     intenseRecs,
     chillRecs,
-    sadRecs
+    sadRecs,
+    setDanceRecs,
+    setChillRecs,
+    setIntenseRecs,
+    setFeelGoodRecs,
+    setSadRecs,
   } = useContext(SpotifyContext);
 
   const classes = useStyles();
@@ -150,6 +155,29 @@ export const SongList = () => {
   } else if (playlist === feelGoodArray) {
       setFeelGoodArray(filteredPlaylist)
   } 
+  }
+
+  const handleAddSong = (rec, songArray, recArray) => {
+    let newPlaylist = songArray.push(rec)
+    let filteredPlaylist = recArray.filter((song) => {
+      return song.id !== rec.id;
+    });
+    if (songArray === chillArray) {
+      setChillArray(newPlaylist);
+      setChillRecs(filteredPlaylist)
+    } else if (songArray === sadArray) {
+      setSadArray(newPlaylist);
+      setSadRecs(filteredPlaylist)
+    } else if (songArray === intenseArray) {
+      setIntenseArray(newPlaylist);
+      setIntenseRecs(filteredPlaylist)
+    } else if (songArray === danceArray) {
+      setDanceArray(newPlaylist);
+      setDanceRecs(filteredPlaylist);
+    } else if (songArray === feelGoodArray) {
+      setFeelGoodArray(newPlaylist);
+      setFeelGoodRecs(filteredPlaylist)
+    }
   }
 
   const avatarStyles = useDynamicAvatarStyles({ size: 60 });
@@ -213,6 +241,9 @@ export const SongList = () => {
                     </Info>
                     <Item position={"right"}>
                       <IconButton
+                        onClick={() =>
+                          handleAddSong(track, danceArray, danceRecs)
+                        }
                         aria-label="delete"
                         className={classes.margin}
                         size="small"

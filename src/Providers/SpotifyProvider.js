@@ -478,7 +478,12 @@ const CreatePlaylist = (
         intenseRecs,
         sadRecs,
         feelGoodRecs,
-        chillRecs
+        chillRecs,
+        setDanceRecs,
+        setChillRecs,
+        setIntenseRecs,
+        setFeelGoodRecs,
+        setSadRecs
       }}
     >
       {props.children}
