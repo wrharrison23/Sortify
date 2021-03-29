@@ -158,24 +158,23 @@ export const SongList = () => {
   }
 
   const handleAddSong = (rec, songArray, recArray) => {
-    let newPlaylist = songArray.push(rec)
     let filteredPlaylist = recArray.filter((song) => {
       return song.id !== rec.id;
     });
     if (songArray === chillArray) {
-      setChillArray(newPlaylist);
+      setChillArray((prevArray) => [...prevArray, rec]);
       setChillRecs(filteredPlaylist)
     } else if (songArray === sadArray) {
-      setSadArray(newPlaylist);
+      setSadArray((prevArray) => [...prevArray, rec]);
       setSadRecs(filteredPlaylist)
     } else if (songArray === intenseArray) {
-      setIntenseArray(newPlaylist);
+      setIntenseArray((prevArray) => [...prevArray, rec]);
       setIntenseRecs(filteredPlaylist)
     } else if (songArray === danceArray) {
-      setDanceArray(newPlaylist);
+      setDanceArray(prevArray => [...prevArray, rec]);
       setDanceRecs(filteredPlaylist);
     } else if (songArray === feelGoodArray) {
-      setFeelGoodArray(newPlaylist);
+      setFeelGoodArray((prevArray) => [...prevArray, rec]);
       setFeelGoodRecs(filteredPlaylist)
     }
   }
@@ -224,7 +223,21 @@ export const SongList = () => {
                   </Row>
                 );
               })}
-              <h5>Recommended Songs</h5>
+              <h5
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  borderBottom: "2px",
+                  paddingBottom: 1,
+                  borderStyle: "solid",
+                  borderImage: "linear-gradient(black, transparent) 10",
+                  borderTop: 0,
+                  borderLeft: 0,
+                  borderRight: 0,
+                }}
+              >
+                Recommended Songs
+              </h5>
               {danceRecs?.map((track) => {
                 return (
                   <Row key={track.id} className={classes.songCard}>
@@ -315,40 +328,57 @@ export const SongList = () => {
                   </Row>
                 );
               })}
-              <h5>Recommended Songs</h5>
-              <div style={{borderTop:"1px solid black"}}>
-              {feelGoodRecs?.map((track) => {
-                return (
-                  <Row key={track.id} className={classes.songCard}>
-                    <Item>
-                      <Avatar
-                        variant={"rounded"}
-                        classes={avatarStyles}
-                        src={track.imageUrl}
-                      />
-                    </Item>
-                    <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
-                      <InfoSubtitle>{track.artist}</InfoSubtitle>
-                    </Info>
-                    <Item position={"right"}>
-                      <IconButton
-                        aria-label="delete"
-                        className={classes.margin}
-                        size="small"
-                      >
-                        <AddIcon
-                          style={{
-                            backgroundColor: "inherit",
-                            color: "white",
-                          }}
-                          fontSize="small"
+              <h5
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  borderBottom: "2px",
+                  paddingBottom: 1,
+                  borderStyle: "solid",
+                  borderImage: "linear-gradient(black, transparent) 10",
+                  borderTop: 0,
+                  borderLeft: 0,
+                  borderRight: 0,
+                }}
+              >
+                Recommended Songs
+              </h5>
+              <div>
+                {feelGoodRecs?.map((track) => {
+                  return (
+                    <Row key={track.id} className={classes.songCard}>
+                      <Item>
+                        <Avatar
+                          variant={"rounded"}
+                          classes={avatarStyles}
+                          src={track.imageUrl}
                         />
-                      </IconButton>
-                    </Item>
-                  </Row>
-                );
-              })}
+                      </Item>
+                      <Info useStyles={useD01InfoStyles}>
+                        <InfoTitle>{track.name}</InfoTitle>
+                        <InfoSubtitle>{track.artist}</InfoSubtitle>
+                      </Info>
+                      <Item position={"right"}>
+                        <IconButton
+                          onClick={() =>
+                            handleAddSong(track, feelGoodArray, feelGoodRecs)
+                          }
+                          aria-label="delete"
+                          className={classes.margin}
+                          size="small"
+                        >
+                          <AddIcon
+                            style={{
+                              backgroundColor: "inherit",
+                              color: "white",
+                            }}
+                            fontSize="small"
+                          />
+                        </IconButton>
+                      </Item>
+                    </Row>
+                  );
+                })}
               </div>
             </div>
 
@@ -406,7 +436,21 @@ export const SongList = () => {
                   </Row>
                 );
               })}
-              <h5>Recommended Songs</h5>
+              <h5
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  borderBottom: "2px",
+                  paddingBottom: 1,
+                  borderStyle: "solid",
+                  borderImage: "linear-gradient(black, transparent) 10",
+                  borderTop: 0,
+                  borderLeft: 0,
+                  borderRight: 0,
+                }}
+              >
+                Recommended Songs
+              </h5>
               {intenseRecs?.map((track) => {
                 return (
                   <Row key={track.id} className={classes.songCard}>
@@ -423,6 +467,9 @@ export const SongList = () => {
                     </Info>
                     <Item position={"right"}>
                       <IconButton
+                        onClick={() =>
+                          handleAddSong(track, intenseArray, intenseRecs)
+                        }
                         aria-label="delete"
                         className={classes.margin}
                         size="small"
@@ -495,7 +542,21 @@ export const SongList = () => {
                   </Row>
                 );
               })}
-              <h5>Recommended Songs</h5>
+              <h5
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  borderBottom: "2px",
+                  paddingBottom: 1,
+                  borderStyle: "solid",
+                  borderImage: "linear-gradient(black, transparent) 10",
+                  borderTop: 0,
+                  borderLeft: 0,
+                  borderRight: 0,
+                }}
+              >
+                Recommended Songs
+              </h5>
               {chillRecs?.map((track) => {
                 return (
                   <Row key={track.id} className={classes.songCard}>
@@ -512,6 +573,9 @@ export const SongList = () => {
                     </Info>
                     <Item position={"right"}>
                       <IconButton
+                        onClick={() =>
+                          handleAddSong(track, chillArray, chillRecs)
+                        }
                         aria-label="delete"
                         className={classes.margin}
                         size="small"
@@ -583,7 +647,21 @@ export const SongList = () => {
                   </Row>
                 );
               })}
-              <h5>Recommended Songs</h5>
+              <h5
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  borderBottom: "2px",
+                  paddingBottom: 1,
+                  borderStyle: "solid",
+                  borderImage: "linear-gradient(black, transparent) 10",
+                  borderTop: 0,
+                  borderLeft: 0,
+                  borderRight: 0,
+                }}
+              >
+                Recommended Songs
+              </h5>
               {sadRecs?.map((track) => {
                 return (
                   <Row key={track.id} className={classes.songCard}>
@@ -600,6 +678,7 @@ export const SongList = () => {
                     </Info>
                     <Item position={"right"}>
                       <IconButton
+                        onClick={() => handleAddSong(track, sadArray, sadRecs)}
                         aria-label="delete"
                         className={classes.margin}
                         size="small"
