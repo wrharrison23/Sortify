@@ -1,36 +1,29 @@
 import { SpotifyContext } from "../Providers/SpotifyProvider";
 import React, { useState, useContext, useEffect } from "react";
-import { SongCard } from "./SongCard";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
+import { createMuiTheme } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import Card from "@material-ui/core/Card";
 import { Row, Column, Item } from "@mui-treasury/components/flex";
 import {
   Info,
   InfoTitle,
   InfoSubtitle,
-  InfoCaption,
 } from "@mui-treasury/components/info";
 import { useDynamicAvatarStyles } from "@mui-treasury/styles/avatar/dynamic";
 import { useD01InfoStyles } from "@mui-treasury/styles/info/d01";
 import Avatar from "@material-ui/core/Avatar";
 import "../App.css"
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
+import SpotifyPlayer from "react-spotify-web-playback";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+
 const useStyles = makeStyles((theme) => ({
   root: {
-   display: "flex",
+    display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
     flexGrow: 1,
@@ -49,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backGroundColor: "white",
     width: "100%",
-    borderRadius: 20
+    borderRadius: 20,
   },
   songCard: {
     height: 70,
@@ -72,29 +65,24 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "blue",
   },
   trackName: {
-    fontSize: "5rem",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    width:"310px"
   },
   margin: {
     spacing: 0,
   },
-  header:{
-    alignSelf: "center"
-  }
+  header: {
+    alignSelf: "center",
+  },
+  footer: {
+    position: "fixed",
+    bottom: "0px",
+    width: "100%",
+  },
 }));
 
-const theme = createMuiTheme({
-  typography: {
-    h5: {
-      fontSize: 17,
-    },
-    subtitle1: {
-      fontSize: 12,
-    },
-    button: {
-      fontStyle: "italic",
-    },
-  },
-});
 export const SongList = () => {
   const {
     chillArray,
@@ -110,7 +98,6 @@ export const SongList = () => {
     savePlaylist,
     getTopTracks,
     getFeatures,
-    getRecommendations,
     danceRecs,
     feelGoodRecs,
     intenseRecs,
@@ -124,6 +111,8 @@ export const SongList = () => {
   } = useContext(SpotifyContext);
 
   const classes = useStyles();
+  const [URIs, setUris] = useState([])
+  const [playState, setPlayState] = useState(false)
 
   useEffect(() => {
     getTopTracks()
@@ -179,6 +168,12 @@ export const SongList = () => {
     }
   }
 
+  const handlePlaySong = (track) => {
+    let trackUri = `spotify:track:${track.id}`
+    setUris(trackUri)
+    setPlayState(true)
+  }
+
   const avatarStyles = useDynamicAvatarStyles({ size: 60 });
 
   return (
@@ -204,7 +199,7 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>{track.name}</InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -249,7 +244,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -262,6 +259,15 @@ export const SongList = () => {
                         size="small"
                       >
                         <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
                           style={{
                             backgroundColor: "inherit",
                             color: "white",
@@ -309,7 +315,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -355,7 +363,9 @@ export const SongList = () => {
                         />
                       </Item>
                       <Info useStyles={useD01InfoStyles}>
-                        <InfoTitle>{track.name}</InfoTitle>
+                        <InfoTitle className={classes.trackName}>
+                          {track.name}
+                        </InfoTitle>
                         <InfoSubtitle>{track.artist}</InfoSubtitle>
                       </Info>
                       <Item position={"right"}>
@@ -368,6 +378,15 @@ export const SongList = () => {
                           size="small"
                         >
                           <AddIcon
+                            style={{
+                              backgroundColor: "inherit",
+                              color: "white",
+                            }}
+                            fontSize="small"
+                          />
+                        </IconButton>
+                        <IconButton onClick={() => handlePlaySong(track)}>
+                          <PlayCircleOutlineIcon
                             style={{
                               backgroundColor: "inherit",
                               color: "white",
@@ -417,7 +436,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -462,7 +483,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -475,6 +498,15 @@ export const SongList = () => {
                         size="small"
                       >
                         <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
                           style={{
                             backgroundColor: "inherit",
                             color: "white",
@@ -523,7 +555,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -568,7 +602,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -581,6 +617,15 @@ export const SongList = () => {
                         size="small"
                       >
                         <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
                           style={{
                             backgroundColor: "inherit",
                             color: "white",
@@ -628,7 +673,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -673,7 +720,9 @@ export const SongList = () => {
                       />
                     </Item>
                     <Info useStyles={useD01InfoStyles}>
-                      <InfoTitle>{track.name}</InfoTitle>
+                      <InfoTitle className={classes.trackName}>
+                        {track.name}
+                      </InfoTitle>
                       <InfoSubtitle>{track.artist}</InfoSubtitle>
                     </Info>
                     <Item position={"right"}>
@@ -684,6 +733,15 @@ export const SongList = () => {
                         size="small"
                       >
                         <AddIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
                           style={{
                             backgroundColor: "inherit",
                             color: "white",
@@ -716,6 +774,20 @@ export const SongList = () => {
             </Button>
           </Column>
         </Grid>
+        <footer className={classes.footer}>
+          {URIs.length !== 0 ? (
+          <SpotifyPlayer
+            token={localStorage.getItem("accessToken")}
+            uris={URIs}
+            play={playState}
+            
+            styles={{
+              sliderColor: "#3a7bd5",
+            }}
+          />
+          ) :
+          <div></div>}
+        </footer>
       </Grid>
     </>
   );

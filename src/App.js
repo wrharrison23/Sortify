@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { Route, Redirect, useHistory } from "react-router-dom";
-import { ApplicationViews } from "./ApplicationViews";
+import React from "react";
 
 import { SongList } from "./Spotify/SongList";
 import Cookies from "js-cookie";
@@ -10,7 +8,7 @@ import { SongProvider } from "./Providers/SpotifyProvider";
 import SpotifyWebApi from "spotify-web-api-js";
 import "./App.css";
 import logo from "./assets/Sortify.png"
-import logoWhite from "./Logo-white.png"
+
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -27,11 +25,12 @@ export const App = () => {
       {token ? (
         <SongProvider>
           <div className="logoDiv">
-            <img src={logo} alt="#" className="logo"/>
+            <img src={logo} alt="#" className="logo" />
           </div>
           <div className="songListContainer">
             <SongList />
           </div>
+          
         </SongProvider>
       ) : (
         // Display the login page
@@ -51,6 +50,8 @@ export const App = () => {
               "playlist-modify-public",
               "playlist-modify-public",
               "playlist-modify-private",
+              "streaming",
+              "user-modify-playback-state",
             ]}
           />
         </div>
