@@ -20,7 +20,7 @@ import "../App.css"
 import AddIcon from "@material-ui/icons/Add";
 import SpotifyPlayer from "react-spotify-web-playback";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-
+import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -174,6 +174,20 @@ export const SongList = () => {
     setPlayState(true)
   }
 
+  const handlePlaylist = (songArray) => {
+    let playlistUris = songArray.map((track) => {
+      return `spotify:track:${track.id}`
+    })
+    let shuffledUris = playlistUris
+      .map((a) => ({ sort: Math.random(), value: a }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((a) => a.value);
+
+    setUris(shuffledUris)
+    setPlayState(true);
+  }
+  
+
   const avatarStyles = useDynamicAvatarStyles({ size: 60 });
 
   return (
@@ -187,6 +201,19 @@ export const SongList = () => {
         <Grid item xs={5}>
           <Column gap={2} width={"100%"} className={classes.col}>
             <h3 className={classes.header}>Party</h3>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<PlaylistPlayIcon />}
+              onClick={() => {
+                handlePlaylist(danceArray);
+              }}
+            >
+              Shuffle Playlist
+            </Button>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {danceArray?.map((track) => {
                 return (
@@ -213,6 +240,15 @@ export const SongList = () => {
                       >
                         <DeleteIcon
                           style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
                           fontSize="small"
                         />
                       </IconButton>
@@ -305,6 +341,19 @@ export const SongList = () => {
         <Grid item xs={5}>
           <Column gap={1}>
             <h3 className={classes.header}>Feel-good</h3>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<PlaylistPlayIcon />}
+              onClick={() => {
+                handlePlaylist(feelGoodArray);
+              }}
+            >
+              Shuffle Playlist
+            </Button>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {feelGoodArray?.map((track) => {
                 return (
@@ -331,6 +380,15 @@ export const SongList = () => {
                       >
                         <DeleteIcon
                           style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
                           fontSize="small"
                         />
                       </IconButton>
@@ -426,6 +484,19 @@ export const SongList = () => {
         <Grid item xs={5}>
           <Column gap={1}>
             <h3 className={classes.header}>Energetic</h3>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<PlaylistPlayIcon />}
+              onClick={() => {
+                handlePlaylist(intenseArray);
+              }}
+            >
+              Shuffle Playlist
+            </Button>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {intenseArray?.map((track) => {
                 return (
@@ -452,6 +523,15 @@ export const SongList = () => {
                       >
                         <DeleteIcon
                           style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
                           fontSize="small"
                         />
                       </IconButton>
@@ -545,6 +625,20 @@ export const SongList = () => {
         <Grid item xs={5}>
           <Column gap={1}>
             <h3 className={classes.header}>Chill</h3>
+
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<PlaylistPlayIcon />}
+              onClick={() => {
+                handlePlaylist(chillArray);
+              }}
+            >
+              Shuffle Playlist
+            </Button>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {chillArray?.map((track) => {
                 return (
@@ -571,6 +665,15 @@ export const SongList = () => {
                       >
                         <DeleteIcon
                           style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
                           fontSize="small"
                         />
                       </IconButton>
@@ -663,6 +766,19 @@ export const SongList = () => {
         <Grid item xs={5}>
           <Column gap={1}>
             <h3 className={classes.header}>Sad</h3>
+            <Button
+              variant="contained"
+              color="default"
+              size="large"
+              style={{ backgroundColor: "white", color: "black" }}
+              className={classes.button}
+              startIcon={<PlaylistPlayIcon />}
+              onClick={() => {
+                handlePlaylist(sadArray);
+              }}
+            >
+              Shuffle Playlist
+            </Button>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {sadArray?.map((track) => {
                 return (
@@ -689,6 +805,15 @@ export const SongList = () => {
                       >
                         <DeleteIcon
                           style={{ backgroundColor: "inherit", color: "white" }}
+                          fontSize="small"
+                        />
+                      </IconButton>
+                      <IconButton onClick={() => handlePlaySong(track)}>
+                        <PlayCircleOutlineIcon
+                          style={{
+                            backgroundColor: "inherit",
+                            color: "white",
+                          }}
                           fontSize="small"
                         />
                       </IconButton>
@@ -782,7 +907,7 @@ export const SongList = () => {
               token={localStorage.getItem("accessToken")}
               uris={URIs}
               play={playState}
-              initialVolume={.75}
+              initialVolume={0.75}
               styles={{
                 sliderColor: "#3a7bd5",
               }}
