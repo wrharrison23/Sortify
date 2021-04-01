@@ -30,12 +30,13 @@ export const App = () => {
           <div className="songListContainer">
             <SongList />
           </div>
-          
         </SongProvider>
       ) : (
         // Display the login page
         <div className="authPage">
-          <h2 className="authHeader">Sortify</h2>
+          <div className="loginLogoDiv">
+            <img src={logo} alt="#" className="loginImg" />
+          </div>
           <SpotifyAuth
             redirectUri="http://localhost:3000/callback"
             clientID="8e60798c10de43eb9c5facdabbabff2b"

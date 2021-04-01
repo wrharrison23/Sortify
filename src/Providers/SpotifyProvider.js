@@ -20,7 +20,7 @@ export const SongProvider = (props) => {
   const [intenseRecs, setIntenseRecs] = useState([])
   const [feelGoodRecs, setFeelGoodRecs] = useState([])
   const [sadRecs, setSadRecs] = useState([])
-
+  const [results, setResults] = useState([]);
 
   let trackArray = []
 
@@ -95,7 +95,7 @@ export const SongProvider = (props) => {
    
   // }
 
-    const buildRecArray = (r) => {
+    const buildRecArray = (r, listName) => {
       let trackArray = [];
       r.tracks.forEach((track) => {
         trackArray.push({
@@ -104,6 +104,8 @@ export const SongProvider = (props) => {
           artist: track.artists[0].name,
           artistId: track.artists[0].id,
           imageUrl: track.album.images[1].url,
+          playlist: listName,
+          type: "rec"
         });
       });
       return trackArray;
@@ -127,6 +129,7 @@ export const SongProvider = (props) => {
         "seed_tracks": songIds,
         "min_danceability": 0.6,
         "min_energy": 0.5,
+        
       };
     } else if(listName === "chill"){
       options = {
@@ -136,6 +139,7 @@ export const SongProvider = (props) => {
       "seed_tracks": songIds,
       "max_energy": 0.8,
       "min_valence": 0.45,
+      
     };
     } else if (listName === "intense"){
       options = {
@@ -144,6 +148,7 @@ export const SongProvider = (props) => {
       "seed_genres": "work-out",
       "seed_tracks": songIds,
       "min_energy": 0.75,
+      
     };
     } else if (listName === "feelGood"){
       options = {
@@ -153,6 +158,7 @@ export const SongProvider = (props) => {
       "seed_tracks": songIds,
       "min_energy": 0.3,
       "min_valence": 0.6,
+      
     };
     } else if (listName === "sad") {
       options = {
@@ -162,20 +168,21 @@ export const SongProvider = (props) => {
       "seed_tracks": songIds,
       "max_energy": 0.6,
       "max_valence": 0.4,
+      
     };
     }
 
     spotifyApi.getRecommendations(options).then((r) => {
       if (listName === "dance") {
-        setDanceRecs(buildRecArray(r));
+        setDanceRecs(buildRecArray(r, listName));
       } else if (listName === "chill") {
-        setChillRecs(buildRecArray(r));
+        setChillRecs(buildRecArray(r, listName));
       } else if (listName === "sad") {
-        setSadRecs(buildRecArray(r));
+        setSadRecs(buildRecArray(r, listName));
       } else if (listName === "intense") {
-        setIntenseRecs(buildRecArray(r));
+        setIntenseRecs(buildRecArray(r, listName));
       } else if (listName === "feelGood") {
-        setFeelGoodRecs(buildRecArray(r));
+        setFeelGoodRecs(buildRecArray(r, listName));
       }
     });
   };
@@ -329,6 +336,28 @@ const CreatePlaylist = (
           });
       });
   };
+
+    const searchTracks = (q, playlist) => {
+      let resultArray = [];
+      console.log(playlist)
+      spotifyApi.searchTracks(q, { limit: 5 }).then((r) => {
+        r.tracks.items.forEach((track) => {
+          resultArray.push({
+            name: track.name,
+            id: track.id,
+            artist: track.artists[0].name,
+            artistId: track.artists[0].id,
+            imageUrl: track.album.images[1].url,
+            type: "searchResult",
+            playlist: playlist
+          });
+        })
+        setResults(resultArray);
+      })
+    };
+    const [URIs, setUris] = useState([]);
+    const [playState, setPlayState] = useState(false);
+
   return (
     <SpotifyContext.Provider
       value={{
@@ -344,7 +373,7 @@ const CreatePlaylist = (
         setSadArray,
         setIntenseArray,
         setDanceArray,
-        setFeelGoodArray, 
+        setFeelGoodArray,
         getRecommendations,
         danceRecs,
         intenseRecs,
@@ -355,7 +384,14 @@ const CreatePlaylist = (
         setChillRecs,
         setIntenseRecs,
         setFeelGoodRecs,
-        setSadRecs
+        setSadRecs,
+        results,
+        setResults,
+        searchTracks,
+        URIs,
+        setUris,
+        playState,
+        setPlayState,
       }}
     >
       {props.children}

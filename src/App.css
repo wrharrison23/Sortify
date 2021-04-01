@@ -69,10 +69,21 @@
 /* * {
   background-color: #203647;
 } */
-.logoDiv {
-  height: 90vh;
+.loginLogoDiv {
+  height: 60vh;
   text-align: center;
 }
+
+.logoDiv {
+  height: 70vh;
+  text-align: center;
+}
+
+.loginImg {
+  height: 100%;
+  text-align: center;
+}
+
 h3 {
   color: white;
   font-family: 'Pacifico', cursive;
@@ -89,6 +100,7 @@ h3 {
   align-content: center;
   justify-items: center;
   text-align: center;
+  height: 100vh
 }
 
 .loginBtn {
@@ -96,7 +108,7 @@ h3 {
   width: 15em;
   height: 5em;
   text-align: center;
-  margin: 0 auto;
+  margin: 1 auto;
   display: block;
   margin: auto;
   text-align: center;
