@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     overflow: "hidden",
     whiteSpace: "nowrap",
-    width: "300px",
+    width: "280px",
   },
   margin: {
     spacing: 0,

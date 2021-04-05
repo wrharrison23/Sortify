@@ -195,7 +195,7 @@ export const SongProvider = (props) => {
     let chillIds = [];
     
     features.audio_features.filter((feature) => {
-      if (feature.danceability > 0.6 && feature.energy > .5) {
+      if (feature.danceability > 0.6 && feature.energy > .4) {
         danceIds.push(feature.id);
       }
       if (feature.valence > 0.6 && feature.energy > 0.3) {

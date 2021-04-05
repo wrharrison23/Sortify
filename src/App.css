@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+/* @import url(//db.onlinewebfonts.com/c/2a32094b74bdd4607c616294a8a90740?family=Peace+Sans); */
+@font-face { font-family: Peace Sans; src: url("./assets/peace-sans.regular.otf")}
+
 .App {
   text-align: center;
 }
@@ -79,15 +82,22 @@
   text-align: center;
 }
 
+.logo{
+  height: 95%;
+}
+
 .loginImg {
   height: 100%;
   text-align: center;
 }
 
 h3 {
-  color: white;
-  font-family: 'Pacifico', cursive;
-  font-size: 4em;
+  color:rgb(42, 45, 47);
+  /* font-family: 'Pacifico', cursive; */
+  font-family: 'Peace Sans';
+  font-size: 36pt;
+  letter-spacing: 5px;
+  transform: scale(1, 1);
 }
 
 .authHeader {
@@ -104,7 +114,7 @@ h3 {
 }
 
 .loginBtn {
-  background-color: #007CC7;
+  background-color: rgb(29, 28, 28);
   width: 15em;
   height: 5em;
   text-align: center;
@@ -120,7 +130,7 @@ h3 {
 }
 
 .loginBtn span{
-  background-color: #007CC7;
+  background-color: rgb(29, 28, 28);
   text-align: center;
 }
 
@@ -131,7 +141,7 @@ h3 {
 }
 
 .loginLogo {
-   background-color: #007CC7;
+   background-color: rgb(29, 28, 28);
   height: 1.5rem;
   width:2em;
   fill: white;
