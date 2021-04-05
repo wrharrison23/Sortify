@@ -4,23 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme } from "@material-ui/core/styles";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
-import { Row, Column, Item } from "@mui-treasury/components/flex";
-import {
-  Info,
-  InfoTitle,
-  InfoSubtitle,
-} from "@mui-treasury/components/info";
-import { useDynamicAvatarStyles } from "@mui-treasury/styles/avatar/dynamic";
-import { useD01InfoStyles } from "@mui-treasury/styles/info/d01";
-import Avatar from "@material-ui/core/Avatar";
+import { Column } from "@mui-treasury/components/flex";
 import "../App.css"
-import AddIcon from "@material-ui/icons/Add";
 import SpotifyPlayer from "react-spotify-web-playback";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import {SearchBar} from "./SearchBar"
 import {SongCard} from "./SongCard"
 import {RecCard} from "./RecCard"
@@ -80,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     overflow: "hidden",
     whiteSpace: "nowrap",
-    width: "300px",
+    width: "280px",
   },
   margin: {
     spacing: 0,
@@ -103,11 +89,6 @@ export const SongList = () => {
     intenseArray,
     danceArray,
     feelGoodArray,
-    setChillArray,
-    setSadArray,
-    setIntenseArray,
-    setDanceArray,
-    setFeelGoodArray,
     savePlaylist,
     getTopTracks,
     getFeatures,
@@ -116,18 +97,12 @@ export const SongList = () => {
     intenseRecs,
     chillRecs,
     sadRecs,
-    setDanceRecs,
-    setChillRecs,
-    setIntenseRecs,
-    setFeelGoodRecs,
-    setSadRecs,
     results,
-    setResults,
-    searchTracks,
     URIs,
     setUris,
     playState,
     setPlayState,
+    setResults
   } = useContext(SpotifyContext);
 
   const [openDance, setOpenDance] = useState(false);
@@ -210,7 +185,6 @@ export const SongList = () => {
     setPlayState(true);
   }
 
-  const avatarStyles = useDynamicAvatarStyles({ size: 60 });
   const [fullWidth, setFullWidth] = useState(false);
   const [maxWidth, setMaxWidth] = useState("sm");
   return (
@@ -223,7 +197,7 @@ export const SongList = () => {
       >
         <Grid item xs={5}>
           <Column gap={2} width={"100%"} className={classes.col}>
-            <h3 className={classes.header}>Party</h3>
+            <h3 className={classes.header}>PARTY</h3>
 
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {danceArray?.map((track) => {
@@ -275,7 +249,7 @@ export const SongList = () => {
                   >
                     Add a song
                   </DialogTitle>
-                  <DialogContentText
+                  <DialogContent
                     style={{ backgroundColor: "#606060", marginBottom: 0 }}
                   >
                     <SearchBar playlist="dance" />
@@ -284,9 +258,16 @@ export const SongList = () => {
                         return <RecCard track={track} key={track.id} />;
                       })}
                     </DialogContentText>
-                  </DialogContentText>
+                  </DialogContent>
                   <DialogActions style={{ backgroundColor: "#606060" }}>
-                    <Button onClick={handleCloseDance}>Close</Button>
+                    <Button
+                      onClick={() => {
+                        handleCloseDance();
+                        setResults([]);
+                      }}
+                    >
+                      Close
+                    </Button>
                   </DialogActions>
                 </Dialog>
 
@@ -311,7 +292,7 @@ export const SongList = () => {
                   onClick={() =>
                     handleSavePlaylist(
                       "Sortify - Dance",
-                      "Songs to dance to - created by Sortify",
+                      "Songs to dance to - curated by Sortify",
                       danceArray
                     )
                   }
@@ -325,7 +306,7 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3 className={classes.header}>Feel-good</h3>
+            <h3 className={classes.header}>FEEL-GOOD</h3>
 
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {feelGoodArray?.map((track) => {
@@ -414,8 +395,8 @@ export const SongList = () => {
                   startIcon={<SaveAltIcon />}
                   onClick={() =>
                     handleSavePlaylist(
-                      "Sortify - Dance",
-                      "Songs to dance to - created by Sortify",
+                      "Sortify - Feel-good",
+                      "Feel-good songs - curated by Sortify",
                       feelGoodArray
                     )
                   }
@@ -429,7 +410,7 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3 className={classes.header}>Energetic</h3>
+            <h3 className={classes.header}>INTENSE</h3>
 
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {intenseArray?.map((track) => {
@@ -492,7 +473,14 @@ export const SongList = () => {
                     </DialogContentText>
                   </DialogContentText>
                   <DialogActions style={{ backgroundColor: "#606060" }}>
-                    <Button onClick={handleCloseIntense}>Close</Button>
+                    <Button
+                      onClick={() => {
+                        handleCloseIntense();
+                        setResults([]);
+                      }}
+                    >
+                      Close
+                    </Button>
                   </DialogActions>
                 </Dialog>
 
@@ -516,8 +504,8 @@ export const SongList = () => {
                   startIcon={<SaveAltIcon />}
                   onClick={() =>
                     handleSavePlaylist(
-                      "Sortify - Dance",
-                      "Songs to dance to - created by Sortify",
+                      "Sortify - Intense",
+                      "Intense songs - curated by Sortify",
                       intenseArray
                     )
                   }
@@ -531,7 +519,7 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3 className={classes.header}>Chill</h3>
+            <h3 className={classes.header}>CHILL</h3>
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {chillArray?.map((track) => {
                 return <SongCard key={track.id} track={track} />;
@@ -593,7 +581,14 @@ export const SongList = () => {
                     </DialogContentText>
                   </DialogContentText>
                   <DialogActions style={{ backgroundColor: "#606060" }}>
-                    <Button onClick={handleCloseChill}>Close</Button>
+                    <Button
+                      onClick={() => {
+                        handleCloseChill();
+                        setResults([]);
+                      }}
+                    >
+                      Close
+                    </Button>
                   </DialogActions>
                 </Dialog>
 
@@ -611,14 +606,14 @@ export const SongList = () => {
                 </Button>
                 <Button
                   variant="contained"
-                  color="default"
+                  
                   style={{ backgroundColor: "white", color: "black" }}
                   // className={classes.button}
                   startIcon={<SaveAltIcon />}
                   onClick={() =>
                     handleSavePlaylist(
-                      "Sortify - Dance",
-                      "Songs to dance to - created by Sortify",
+                      "Sortify - Chill",
+                      "Songs to relax to - curated by Sortify",
                       chillArray
                     )
                   }
@@ -632,8 +627,8 @@ export const SongList = () => {
 
         <Grid item xs={5}>
           <Column gap={1}>
-            <h3 className={classes.header}>Sad</h3>
-           
+              <h3 className={classes.header}>SAD</h3>
+
             <div style={{ maxHeight: 600, overflow: "auto" }}>
               {sadArray?.map((track) => {
                 return <SongCard key={track.id} track={track} />;
@@ -657,7 +652,10 @@ export const SongList = () => {
                 return <RecCard key={track.id} track={track} />;
               })}
             </div>
-            <div width={"100%"} style={{ marginTop: "1em", marginBottom:"4em" }}>
+            <div
+              width={"100%"}
+              style={{ marginTop: "1em", marginBottom: "4em" }}
+            >
               <ButtonGroup
                 aria-label="outlined secondary button group"
                 size="small"
@@ -695,7 +693,14 @@ export const SongList = () => {
                     </DialogContentText>
                   </DialogContentText>
                   <DialogActions style={{ backgroundColor: "#606060" }}>
-                    <Button onClick={handleCloseSad}>Close</Button>
+                    <Button
+                      onClick={() => {
+                        handleCloseSad();
+                        setResults([]);
+                      }}
+                    >
+                      Close
+                    </Button>
                   </DialogActions>
                 </Dialog>
 
@@ -719,8 +724,8 @@ export const SongList = () => {
                   startIcon={<SaveAltIcon />}
                   onClick={() =>
                     handleSavePlaylist(
-                      "Sortify - Dance",
-                      "Songs to dance to - created by Sortify",
+                      "Sortify - Sad",
+                      "Wanna cry? I gotchu - curated by Sortify",
                       sadArray
                     )
                   }
@@ -737,7 +742,7 @@ export const SongList = () => {
               token={localStorage.getItem("accessToken")}
               uris={URIs}
               play={playState}
-              initialVolume={0.5}
+              initialVolume={0.25}
               styles={{
                 sliderColor: "#3a7bd5",
               }}

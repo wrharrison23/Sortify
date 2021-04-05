@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     overflow: "hidden",
     whiteSpace: "nowrap",
-    width: "300px",
+    width: "280px",
   },
   margin: {
     spacing: 0,
@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const SongCard = ( {track} ) => {
   const classes = useStyles();
+  
   const {
     chillArray,
     sadArray,
@@ -90,12 +91,7 @@ export const SongCard = ( {track} ) => {
     setPlayState,
   } = useContext(SpotifyContext);
 
-  
-
   const avatarStyles = useDynamicAvatarStyles({ size: 60 });
-
-
-  
 
   const handleDelete = (songId, playlist) => {
     let filteredPlaylist = playlist.filter((song) => {
@@ -120,8 +116,6 @@ export const SongCard = ( {track} ) => {
     setPlayState(true);
   };
 
-
-  
   return (
     <>
     <Row className={classes.songCard}>
