@@ -7,8 +7,7 @@ import "react-spotify-auth/dist/index.css";
 import { SongProvider } from "./Providers/SpotifyProvider";
 import SpotifyWebApi from "spotify-web-api-js";
 import "./App.css";
-import logo from "./assets/Sortify.png"
-
+import logo from "./assets/Sortify.png";
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -38,7 +37,7 @@ export const App = () => {
             <img src={logo} alt="#" className="loginImg" />
           </div>
           <SpotifyAuth
-            redirectUri="http://localhost:3000/callback"
+            redirectUri="https://sortify-capstone.herokuapp.com/callback"
             clientID="8e60798c10de43eb9c5facdabbabff2b"
             logoClassName="loginLogo"
             btnClassName="loginBtn"
