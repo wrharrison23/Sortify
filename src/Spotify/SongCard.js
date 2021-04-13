@@ -94,18 +94,33 @@ export const SongCard = ( {track} ) => {
   const avatarStyles = useDynamicAvatarStyles({ size: 60 });
 
   const handleDelete = (songId, playlist) => {
-    let filteredPlaylist = playlist.filter((song) => {
+    let moodPlaylist
+    
+    if (playlist === "chill") {
+      moodPlaylist = chillArray
+    } else if (playlist === "sad") {
+      moodPlaylist = sadArray;
+    } else if (playlist === "intense") {
+      moodPlaylist = intenseArray;
+    } else if (playlist === "dance") {
+      moodPlaylist = danceArray;
+    } else if (playlist === "feelGood") {
+      moodPlaylist = feelGoodArray;
+    }
+    
+    let filteredPlaylist = moodPlaylist.filter((song) => {
       return song.id !== songId;
     });
-    if (playlist === chillArray) {
+
+    if (playlist === "chill") {
       setChillArray(filteredPlaylist);
-    } else if (playlist === sadArray) {
+    } else if (playlist === "sad") {
       setSadArray(filteredPlaylist);
-    } else if (playlist === intenseArray) {
+    } else if (playlist === "intense") {
       setIntenseArray(filteredPlaylist);
-    } else if (playlist === danceArray) {
+    } else if (playlist === "dance") {
       setDanceArray(filteredPlaylist);
-    } else if (playlist === feelGoodArray) {
+    } else if (playlist === "feelGood") {
       setFeelGoodArray(filteredPlaylist);
     }
   };
@@ -134,7 +149,9 @@ export const SongCard = ( {track} ) => {
                     </Info>
                     <Item position={"right"}>
                       <IconButton
-                        onClick={() => handleDelete(track.id, danceArray)}
+            onClick={() =>
+              
+              handleDelete(track.id, track.playlist)}
                         aria-label="delete"
                         className={classes.margin}
                         size="small"
