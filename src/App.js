@@ -37,7 +37,7 @@ export const App = () => {
             <img src={logo} alt="#" className="loginImg" />
           </div>
           <SpotifyAuth
-            redirectUri="http://localhost:3000/callback"
+            redirectUri="https://sortify-capstone.herokuapp.com/callback"
             clientID="8e60798c10de43eb9c5facdabbabff2b"
             logoClassName="loginLogo"
             btnClassName="loginBtn"
